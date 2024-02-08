@@ -36,5 +36,5 @@ totem.scale(8)  # Scaling from 16×16 to 128×128
 totem.raw.save('totem.png')  # The totem image is available in the raw variable
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > To scale an image up, use the built-in `.scale()` instead of Pillow's `raw.resize()` because it can blur the image.
