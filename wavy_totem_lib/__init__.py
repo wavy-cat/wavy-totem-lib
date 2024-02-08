@@ -5,7 +5,7 @@
 
 __title__ = "wavy-totem-lib"
 __author__ = "WavyCat"
-__license__ = "Boost Software License 1.0"
+__license__ = "BSL-1.0"
 __version__ = "0.1.0"
 
 from .sync import *

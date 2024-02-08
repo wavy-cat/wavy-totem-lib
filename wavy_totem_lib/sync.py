@@ -8,6 +8,7 @@ from typing import Union, IO
 
 from PIL import Image
 
+from .exceptions import EmptyTotem, SmallScale
 from .options import SkinType
 
 
@@ -28,6 +29,7 @@ class TotemBuilder:
         self.skin_type = skin_type
         self.use_top_layer = use_top_layer
         self.round_head = round_head
+        self.raw: Image.Image | None = None
 
         if self.source.mode != 'RGBA':
             # Convert to RGBA if the mode is not RGBA
@@ -62,37 +64,21 @@ class TotemBuilder:
             destination.putpixel((11, 1), (0, 0, 0, 0))
 
         """Adding hands"""
-        match self.skin_type:
-            case SkinType.SLIM:
-                left_hand, right_hand = self.source.crop((44, 20, 47, 32)), self.source.crop((36, 52, 39, 64))
-                skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
-            case SkinType.WIDE:
-                left_hand, right_hand = self.source.crop((44, 20, 48, 32)), self.source.crop((36, 52, 40, 64))
-                skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
+        crop_map = [(((44, 20, 47, 32), (36, 52, 39, 64)), ((44, 20, 48, 32), (36, 52, 40, 64)))]
 
-        dest_left, dest_right = [(3, 8), (2, 8), (1, 8)], [(12, 8), (13, 8), (14, 8)]
-
-        for map_ind, map_val in enumerate(skin_map):
-            line_left = left_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
-            line_right = right_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
-
-            destination.alpha_composite(line_left, dest_left[map_ind])
-            destination.alpha_composite(line_right, dest_right[map_ind])
-
-        """Adding a torso"""
-        torso = self.source.crop((20, 20, 28, 32)).resize((8, 7))
-        destination.paste(torso, (4, 9), torso)
-
-        """Adding second layers"""
         if self.use_top_layer:
-            """Hands"""
+            crop_map.append((((44, 36, 47, 48), (47, 36, 50, 48)), ((44, 36, 48, 48), (48, 36, 52, 48))))
+
+        for m in crop_map:
             match self.skin_type:
                 case SkinType.SLIM:
-                    left_hand, right_hand = self.source.crop((44, 36, 47, 48)), self.source.crop((47, 36, 50, 48))
+                    left_hand, right_hand = self.source.crop(m[0][0]), self.source.crop(m[0][1])
                     skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
                 case SkinType.WIDE:
-                    left_hand, right_hand = self.source.crop((44, 36, 48, 48)), self.source.crop((48, 36, 52, 48))
+                    left_hand, right_hand = self.source.crop(m[1][0]), self.source.crop(m[1][1])
                     skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
+
+            dest_left, dest_right = [(3, 8), (2, 8), (1, 8)], [(12, 8), (13, 8), (14, 8)]
 
             for map_ind, map_val in enumerate(skin_map):
                 line_left = left_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
@@ -101,7 +87,11 @@ class TotemBuilder:
                 destination.alpha_composite(line_left, dest_left[map_ind])
                 destination.alpha_composite(line_right, dest_right[map_ind])
 
-            """Torso"""
+        """Adding a torso"""
+        torso = self.source.crop((20, 20, 28, 32)).resize((8, 7))
+        destination.paste(torso, (4, 9), torso)
+
+        if self.use_top_layer:
             top_layer_torso = self.source.crop((20, 36, 28, 48)).resize((8, 7))
             destination.alpha_composite(top_layer_torso, (4, 9))
 
@@ -109,14 +99,44 @@ class TotemBuilder:
         legs_right = self.source.crop((20, 52, 24, 64)).crop((0, 11, 4, 12)).resize((2, 1))
         legs_left = self.source.crop((4, 20, 8, 32)).crop((0, 11, 4, 12)).resize((2, 1))
 
-        destination.paste(legs_left, (6, 15), legs_left)
-        destination.paste(legs_right, (8, 15), legs_right)
+        destination.alpha_composite(legs_left, (6, 15))
+        destination.alpha_composite(legs_right, (8, 15))
 
         bottom_region = self.source.crop((22, 31, 26, 32))  # Just above a legs
-        destination.paste(bottom_region, (6, 14), bottom_region)
+        destination.alpha_composite(bottom_region, (6, 14))
 
         """Empty pixels"""
         for i in [(4, 15), (5, 15), (4, 14), (4, 13), (10, 15), (11, 15), (11, 14), (11, 13)]:
             destination.putpixel(i, (0, 0, 0, 0))
 
+        self.raw = destination
         return destination
+
+    def scale(self, factor: int) -> Image.Image:
+        """
+        Scales the image by the given factor.
+
+        :param factor: The scaling factor.
+        :type factor: int
+        :raises EmptyTotem: If the totem is not generated.
+        :raises SmallScale: If the scaling factor is less than or equal to zero.
+        :return: The scaled image.
+        :rtype: Image
+        """
+        if not self.raw:
+            raise EmptyTotem()
+        elif factor <= 0:
+            raise SmallScale()
+
+        new_image = Image.new('RGBA', (factor * self.raw.width, factor * self.raw.height))
+
+        for x in range(self.raw.width):
+            for y in range(self.raw.height):
+                colors = self.raw.getpixel((x, y))
+
+                for i in range(factor):
+                    for j in range(factor):
+                        new_image.putpixel((x * factor + i, y * factor + j), colors)
+
+        self.raw = new_image
+        return new_image
