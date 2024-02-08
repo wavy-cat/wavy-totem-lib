@@ -122,6 +122,14 @@ class TotemBuilder:
         :raises SmallScale: If the scaling factor is less than or equal to zero.
         :return: The scaled image.
         :rtype: Image
+
+        Example usage:
+        ```
+        totem = TotemBuilder('my_skin.png', SkinType.WIDE)
+        totem.generate() # Using generate() before scale() is mandatory
+        totem_image = totem.scale(16)
+        totem_image.show()
+        ```
         """
         if not self.raw:
             raise EmptyTotem()
