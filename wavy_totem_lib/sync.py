@@ -112,7 +112,7 @@ class TotemBuilder:
         self.raw = destination
         return destination
 
-    def scale(self, factor: int) -> Image.Image:
+    def scale(self, *, factor: int) -> Image.Image:
         """
         Scales the image by the given factor.
 
@@ -127,7 +127,7 @@ class TotemBuilder:
         ```
         totem = TotemBuilder('my_skin.png', SkinType.WIDE)
         totem.generate() # Using generate() before scale() is mandatory
-        totem_image = totem.scale(16)
+        totem_image = totem.scale(factor=16)
         totem_image.show()
         ```
         """
