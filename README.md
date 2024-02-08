@@ -1,6 +1,9 @@
 # wavy-totem-lib
 Python library to generate totems of undying for Minecraft
 
+![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/wavy-totem-lib?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
+
+
 ## Features
 
 * Support 64x32 skins
@@ -39,11 +42,11 @@ from wavy_totem_lib import TotemBuilder, SkinType
 totem = TotemBuilder('my_skin.png', SkinType.WIDE)
 totem.generate()
 totem.scale(factor=8)  # Scaling from 16×16 to 128×128
-totem.raw.save('totem.png')  # PIL.Image is available in the `raw` variable
+totem.raw.show()  # PIL.Image is available in the `raw` variable
 ```
 
 > [!IMPORTANT]
-> To scale an image up, use the built-in `.scale()` instead of Pillow's `raw.resize()` because it can blur the image.
+> To scale up, use the built-in `scale` method instead of `raw.resize` from Pillow, because it may blur the image.
 
 ## Enum values
 
