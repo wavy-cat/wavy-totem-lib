@@ -38,7 +38,7 @@ from wavy_totem_lib import TotemBuilder, SkinType
 
 totem = TotemBuilder('my_skin.png', SkinType.WIDE)
 totem.generate()
-totem.scale(factor=8)        # Scaling from 16×16 to 128×128
+totem.scale(factor=8)  # Scaling from 16×16 to 128×128
 totem.raw.save('totem.png')  # PIL.Image is available in the `raw` variable
 ```
 

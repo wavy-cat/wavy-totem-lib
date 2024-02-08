@@ -43,6 +43,8 @@ class TotemBuilder:
         """
         Detects the skin type based on the transparency of a pixel in the source image.
         """
+        if self.source.height == 32:
+            return SkinType.WIDE
         return SkinType.WIDE if bool(self.source.getpixel((46, 52))[3]) else SkinType.SLIM
 
     def _add_hands_32(self, destination: Image.Image) -> Image.Image:
