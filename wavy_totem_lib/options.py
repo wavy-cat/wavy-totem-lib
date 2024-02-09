@@ -23,7 +23,7 @@ class SkinType(Enum):
 
 class TopLayers(Enum):
     """
-    The TopLayers class represents the available options for top layers of skin.
+    Represents the available options for top layers of skin.
 
     Attributes:
         NOTHING: Represents the option to have no top layer.

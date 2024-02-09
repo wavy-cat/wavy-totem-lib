@@ -47,44 +47,30 @@ class TotemBuilder:
             return SkinType.WIDE
         return SkinType.WIDE if bool(self.source.getpixel((46, 52))[3]) else SkinType.SLIM
 
-    def _add_hands_32(self, destination: Image.Image) -> Image.Image:
-        """Adding hands to images for a 64x32 file"""
-        hand = self.source.crop((44, 20, 48, 32))
-
-        match self.skin_type:
-            case SkinType.SLIM:
-                skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
-            case SkinType.WIDE:
-                skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
-
+    def _add_hands(self, destination: Image.Image) -> Image.Image:
+        """Adding hands to totem image"""
+        crop_map = [(((44, 20, 47, 32), (36, 52, 39, 64)), ((44, 20, 48, 32), (36, 52, 40, 64)))]
         dest_left, dest_right = [(3, 8), (2, 8), (1, 8)], [(12, 8), (13, 8), (14, 8)]
 
-        for map_ind, map_val in enumerate(skin_map):
-            line_left = hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
-            line_right = hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
-
-            destination.alpha_composite(line_left, dest_left[map_ind])
-            destination.alpha_composite(line_right, dest_right[map_ind])
-
-        return destination
-
-    def _add_hands_64(self, destination: Image.Image) -> Image.Image:
-        """Adding hands to images for a 64x64 file"""
-        crop_map = [(((44, 20, 47, 32), (36, 52, 39, 64)), ((44, 20, 48, 32), (36, 52, 40, 64)))]
-
-        if self.top_layers.value in (1, 6):
+        if self.top_layers.value in (1, 6) and self.source.height == 64:
             crop_map.append((((44, 36, 47, 48), (47, 36, 50, 48)), ((44, 36, 48, 48), (48, 36, 52, 48))))
 
         for m in crop_map:
-            match self.skin_type:
-                case SkinType.SLIM:
+            match self.skin_type, self.source.height:
+                case SkinType.SLIM, 64:
                     left_hand, right_hand = self.source.crop(m[0][0]), self.source.crop(m[0][1])
                     skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
-                case SkinType.WIDE:
+                case SkinType.WIDE, 64:
                     left_hand, right_hand = self.source.crop(m[1][0]), self.source.crop(m[1][1])
                     skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
-
-            dest_left, dest_right = [(3, 8), (2, 8), (1, 8)], [(12, 8), (13, 8), (14, 8)]
+                case SkinType.SLIM, 32:
+                    left_hand = right_hand = self.source.crop((44, 20, 48, 32))
+                    skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
+                case SkinType.WIDE, 32:
+                    left_hand = right_hand = self.source.crop((44, 20, 48, 32))
+                    skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
+                case _:
+                    raise Exception
 
             for map_ind, map_val in enumerate(skin_map):
                 line_left = left_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
@@ -104,6 +90,8 @@ class TotemBuilder:
             case 32:
                 legs_left = self.source.crop((5, 21, 8, 32)).resize((2, 1))
                 legs_right = ImageOps.flip(legs_left)
+            case _:
+                raise Exception
 
         destination.alpha_composite(legs_left, (6, 15))
         destination.alpha_composite(legs_right, (8, 15))
@@ -160,7 +148,7 @@ class TotemBuilder:
 
         """Adding body parts"""
         destination = self._add_head(destination)
-        destination = self._add_hands_64(destination) if self.source.height == 64 else self._add_hands_32(destination)
+        destination = self._add_hands(destination)
         destination = self._add_torso(destination)
         destination = self._add_legs(destination)
 
