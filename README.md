@@ -1,8 +1,7 @@
 # wavy-totem-lib
-Python library to generate totems of undying for Minecraft
-
 ![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/wavy-totem-lib?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
 
+Python library to generate totems of undying for Minecraft
 
 ## Features
 
@@ -21,6 +20,21 @@ After this, install the library in your environment:
 
 * Using poetry: `poetry add /path/to/wavy-totem-lib`
 * Using pip: `pip install /path/to/wavy-totem-lib`
+
+## Using CLI
+
+You can use the library without writing code from the terminal.
+For help, enter the argument `--help` or `-h`:
+
+```bash
+python3 cli.py --help
+```
+
+To give an example, the following command opens the skin file **my-skin.png** and creates a totem by **rounding its head** and saves it to the file **totem.png** at 64×64 resolution (**4x scaling**):
+
+```bash
+python3 cli.py my-skin.png totem.png --round-head true --scale 4
+```
 
 ## Examples
 
