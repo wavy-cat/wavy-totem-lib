@@ -9,10 +9,10 @@ from wavy_totem_lib import TotemBuilder, SkinType, TopLayers
 
 
 def check_scale(value):
-    ivalue = int(value)
-    if ivalue < 1:
-         raise argparse.ArgumentTypeError(f"{value} is an invalid scale! It must be not less than 1.")
-    return ivalue
+    int_value = int(value)
+    if int_value < 1:
+        raise argparse.ArgumentTypeError(f"{value} is an invalid scale! It must be not less than 1.")
+    return int_value
 
 
 # Add parser
@@ -43,6 +43,8 @@ enums = {'skin_type': {'auto': SkinType.SLIM, 'wide': SkinType.WIDE, 'slim': Ski
 
 totem = TotemBuilder(skin_path, enums['skin_type'][skin_type], enums['top_layers'][top_layers], round_head)
 totem.generate()
-totem.scale(factor=scale).save(output_path)
+if scale > 1:
+    totem.scale(factor=scale)
+totem.raw.save(output_path)
 
 print('\033[90m[\033[92m✔\033[90m] \033[94mGeneration completed successfully\033[0m')

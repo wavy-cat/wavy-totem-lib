@@ -159,7 +159,7 @@ class TotemBuilder:
         self.raw = destination
         return destination
 
-    def scale(self, *, factor: int) -> Image.Image:
+    def scale(self, factor: int) -> Image.Image:
         """
         Scales the image by the given factor.
 
