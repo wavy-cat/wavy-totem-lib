@@ -3,8 +3,6 @@
 #        (See accompanying file LICENSE or copy at
 #          https://www.boost.org/LICENSE_1_0.txt)
 
-# There nothing here (yet)
-
 from asyncio import get_event_loop
 from asyncio.events import AbstractEventLoop
 from concurrent.futures import ThreadPoolExecutor, Executor
