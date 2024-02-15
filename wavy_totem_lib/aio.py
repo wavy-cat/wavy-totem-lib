@@ -11,9 +11,8 @@ from concurrent.futures import ThreadPoolExecutor, Executor
 from pathlib import Path
 from typing import Union, IO, Optional
 
-from PIL import Image, ImageOps
+from PIL import Image
 
-from .exceptions import EmptyTotem, SmallScale
 from .options import SkinType, TopLayers
 from .sync import TotemBuilder
 
