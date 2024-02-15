@@ -1,6 +1,6 @@
-# wavy-totem-lib
+# totem-lib
 
-![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/wavy-totem-lib?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
+![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/totem-lib?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
 
 Python library to generate totems of undying for Minecraft.
 
@@ -21,8 +21,8 @@ Python library to generate totems of undying for Minecraft.
 
 Download from a link:
 
-* Using poetry: `poetry add https://dev-pkg.wavycat.ru/wavy-totem-lib.zip`
-* Using pip: `pip install https://dev-pkg.wavycat.ru/wavy-totem-lib.zip`
+* Using poetry: `poetry add https://dev-pkg.wavycat.ru/totem-lib.zip`
+* Using pip: `pip install https://dev-pkg.wavycat.ru/totem-lib`
 
 You can also clone the repository or [download](https://github.com/wavy-cat/wavy-totem-lib/archive/refs/heads/main.zip)
 and extract the files from the project's ZIP archive into a folder and install the library in your
@@ -63,7 +63,7 @@ python3 cli.py my_skin.png totem.png --round-head true --scale 4
 * Quick generation:
 
 ```python
-from wavy_totem_lib import TotemBuilder, SkinType, TopLayers
+from totem_lib import TotemBuilder, SkinType, TopLayers
 
 totem = TotemBuilder('my_skin.png', SkinType.AUTO, top_layers=TopLayers.ONLY_HEAD, round_head=True)
 totem_image = totem.generate()
@@ -73,7 +73,7 @@ totem_image.save('totem.png')
 * Generation and scaling:
 
 ```python
-from wavy_totem_lib import TotemBuilder, SkinType
+from totem_lib import TotemBuilder, SkinType
 
 totem = TotemBuilder('my_skin.png', SkinType.WIDE)
 totem.generate()
@@ -88,14 +88,14 @@ totem.raw.show() # PIL.Image is available in the `raw` variable
 
 ```python
 import asyncio
-from wavy_totem_lib import AsyncTotemBuilder, SkinType, TopLayers
+from totem_lib import AsyncTotemBuilder, SkinType, TopLayers
 
 async def main():
     # Using AsyncTotemBuilder class instead of TotemBuilder
     totem = AsyncTotemBuilder('my_skin.png', SkinType.SLIM, TopLayers.HEAD_AND_HANDS)
     await totem.generate()
     await totem.scale(factor=4) # 64×64
-    await totem.save('test.png') # save() is not available in TotemBuilder
+    await totem.save('totem.png') # save() is only available in AsyncTotemBuilder
 
 asyncio.run(main())
 ```

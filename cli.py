@@ -5,7 +5,7 @@
 
 import argparse
 
-from wavy_totem_lib import TotemBuilder, SkinType, TopLayers
+from totem_lib import TotemBuilder, SkinType, TopLayers
 
 
 def check_scale(value):
