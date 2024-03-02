@@ -4,7 +4,7 @@
 #          https://www.boost.org/LICENSE_1_0.txt)
 
 from pathlib import Path
-from typing import Union, IO
+from typing import Union, IO, Optional
 
 from PIL import Image, ImageOps
 
@@ -29,7 +29,7 @@ class TotemBuilder:
         self.skin_type = skin_type
         self.top_layers = top_layers
         self.round_head = round_head
-        self.raw: Image.Image | None = None
+        self.raw: Optional[Image.Image] = None
 
         if self.source.mode != 'RGBA':
             # Convert to RGBA if the mode is not RGBA
@@ -56,21 +56,17 @@ class TotemBuilder:
             crop_map.append((((44, 36, 47, 48), (47, 36, 50, 48)), ((44, 36, 48, 48), (48, 36, 52, 48))))
 
         for m in crop_map:
-            match self.skin_type, self.source.height:
-                case SkinType.SLIM, 64:
-                    left_hand, right_hand = self.source.crop(m[0][0]), self.source.crop(m[0][1])
-                    skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
-                case SkinType.WIDE, 64:
-                    left_hand, right_hand = self.source.crop(m[1][0]), self.source.crop(m[1][1])
-                    skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
-                case SkinType.SLIM, 32:
-                    left_hand = right_hand = self.source.crop((44, 20, 48, 32))
-                    skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
-                case SkinType.WIDE, 32:
-                    left_hand = right_hand = self.source.crop((44, 20, 48, 32))
-                    skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
-                case _:
-                    raise Exception
+            if self.skin_type == SkinType.WIDE:
+                skin_map = [((0, 0, 4, 1), (3, 1)), ((0, 5, 4, 6), (3, 1)), ((0, 11, 4, 12), (2, 1))]
+            else:
+                skin_map = [((0, 0, 3, 1), (2, 1)), ((0, 5, 3, 6), (2, 1)), ((0, 11, 3, 12), (2, 1))]
+
+            if self.source.height == 64 and self.skin_type == SkinType.SLIM:
+                left_hand, right_hand = self.source.crop(m[0][0]), self.source.crop(m[0][1])
+            elif self.source.height == 64 and self.skin_type == SkinType.WIDE:
+                left_hand, right_hand = self.source.crop(m[1][0]), self.source.crop(m[1][1])
+            else:
+                left_hand = right_hand = self.source.crop((44, 20, 48, 32))
 
             for map_ind, map_val in enumerate(skin_map):
                 line_left = left_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
@@ -83,15 +79,12 @@ class TotemBuilder:
 
     def _add_legs(self, destination: Image.Image) -> Image.Image:
         """Adds legs to the totem image"""
-        match self.source.height:
-            case 64:
-                legs_right = self.source.crop((20, 52, 24, 64)).crop((0, 11, 4, 12)).resize((2, 1))
-                legs_left = self.source.crop((4, 20, 8, 32)).crop((0, 11, 4, 12)).resize((2, 1))
-            case 32:
-                legs_left = self.source.crop((5, 21, 8, 32)).resize((2, 1))
-                legs_right = ImageOps.flip(legs_left)
-            case _:
-                raise Exception
+        if self.source.height == 64:
+            legs_right = self.source.crop((20, 52, 24, 64)).crop((0, 11, 4, 12)).resize((2, 1))
+            legs_left = self.source.crop((4, 20, 8, 32)).crop((0, 11, 4, 12)).resize((2, 1))
+        else:
+            legs_left = self.source.crop((5, 21, 8, 32)).resize((2, 1))
+            legs_right = ImageOps.flip(legs_left)
 
         destination.alpha_composite(legs_left, (6, 15))
         destination.alpha_composite(legs_right, (8, 15))
