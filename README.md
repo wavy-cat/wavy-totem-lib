@@ -1,6 +1,8 @@
 # wavy-totem-lib
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/wavy-totem-lib?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
+![GitHub License](https://img.shields.io/github/license/wavy-cat/wavy-totem-lib?style=for-the-badge&labelColor=1A222E&color=242B36)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/wavy-totem-lib?style=for-the-badge&logo=Python&logoColor=white&label=Version&labelColor=1A222E&color=242B36&cacheSeconds=0)
 
 Python library to generate totems of undying for Minecraft.
 
@@ -20,8 +22,8 @@ Python library to generate totems of undying for Minecraft.
 
 ## Installing
 
-* Using poetry: `poetry add totem-lib`
-* Using pip: `pip install totem-lib`
+* Using poetry: `poetry add wavy-totem-lib`
+* Using pip: `pip install wavy-totem-lib`
 
 You can also clone the repository or [download](https://github.com/wavy-cat/wavy-totem-lib/archive/refs/heads/main.zip)
 and extract the files from the project's ZIP archive into a folder and install the library in your
