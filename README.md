@@ -11,11 +11,12 @@ Python library to generate totems of undying for Minecraft.
 * Lossless scaling image size
 * Asynchrony support
 * Built-in CLI
+* Supports PyPy
 
 ## Requirements
 
-* python >= 3.10
-* Pillow >= 10.2.0
+* python >= 3.8
+* Pillow >= 10.0.0
 
 ## Installing
 
