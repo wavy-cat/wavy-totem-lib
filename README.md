@@ -24,7 +24,7 @@ Download from a link:
 * Using poetry: `poetry add https://dev-pkg.wavycat.ru/totem-lib.zip`
 * Using pip: `pip install https://dev-pkg.wavycat.ru/totem-lib`
 
-You can also clone the repository or [download](https://github.com/wavy-cat/wavy-totem-lib/archive/refs/heads/main.zip)
+You can also clone the repository or [download](https://github.com/wavy-cat/totem-lib/archive/refs/heads/main.zip)
 and extract the files from the project's ZIP archive into a folder and install the library in your
 environment (`pip install /path/to/lib/folder`, `poetry add /path/to/lib/folder`).
 
