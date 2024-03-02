@@ -6,7 +6,7 @@
 __title__ = "wavy-totem-lib"
 __author__ = "WavyCat"
 __license__ = "BSL-1.0"
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 from .sync import *
 from .aio import *
