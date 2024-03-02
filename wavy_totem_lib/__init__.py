@@ -3,7 +3,7 @@
 #        (See accompanying file LICENSE or copy at
 #          https://www.boost.org/LICENSE_1_0.txt)
 
-__title__ = "totem-lib"
+__title__ = "wavy-totem-lib"
 __author__ = "WavyCat"
 __license__ = "BSL-1.0"
 __version__ = "1.2.0"
