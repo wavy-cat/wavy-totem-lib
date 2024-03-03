@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "wavy-totem-lib"
-version = "1.4.0"
+version = "1.4.1"
 description = "Python library to generate totems of undying for Minecraft"
 authors = ["WavyCat <unknown@wavycat.ru>"]
 readme = "README.md"
 license = "BSL-1.0"
+homepage = "https://github.com/wavy-cat/wavy-totem-lib"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -14,6 +15,9 @@ pillow = "^10.0.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.urls]
+"Issue tracker" = "https://github.com/wavy-cat/wavy-totem-lib/issues"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F403"]
