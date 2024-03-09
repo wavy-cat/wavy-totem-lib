@@ -25,7 +25,7 @@ jobs:
           key: ${{ runner.os }}-python-${{ env.pythonLocation }}-lint
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: pip install Pillow
+        run: pip install Pillow ruff
       - name: Lint
         run: |
           ruff check . --target-version py38
