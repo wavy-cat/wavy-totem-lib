@@ -15,7 +15,6 @@ from .options import SkinType, TopLayers
 from .styles.abstract import AbstractStyle
 from .styles.wavy import WavyStyle
 from .sync import TotemBuilder
-from string import ascii_lowercase
 
 
 class AsyncTotemBuilder(TotemBuilder):
