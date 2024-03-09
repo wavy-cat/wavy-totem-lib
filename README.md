@@ -12,8 +12,9 @@ Python library to generate totems of undying for Minecraft.
 * Zoning 2 layers and rounding the head
 * Lossless scaling image size
 * Asynchrony support
-* Built-in CLI
+* Built-in CLI [beta]
 * Supports PyPy
+* Supports different styles
 
 ## Requirements
 
@@ -24,10 +25,6 @@ Python library to generate totems of undying for Minecraft.
 
 * Using poetry: `poetry add wavy-totem-lib`
 * Using pip: `pip install wavy-totem-lib`
-
-You can also clone the repository or [download](https://github.com/wavy-cat/wavy-totem-lib/archive/refs/heads/main.zip)
-and extract the files from the project's ZIP archive into a folder and install the library in your
-environment (`pip install /path/to/lib/folder`, `poetry add /path/to/lib/folder`).
 
 ## Using CLI
 
@@ -64,10 +61,13 @@ python3 cli.py my_skin.png totem.png --round-head true --scale 4
 * Quick generation:
 
 ```python
-from wavy_totem_lib import TotemBuilder, SkinType, TopLayers
+from wavy_totem_lib import TotemBuilder, TopLayers
 
-totem = TotemBuilder('my_skin.png', SkinType.AUTO, top_layers=TopLayers.ONLY_HEAD, round_head=True)
-totem_image = totem.generate()
+totem = TotemBuilder('my_skin.png', top_layers=TopLayers.ONLY_HEAD, round_head=True)
+# top_layers=TopLayers.ONLY_HEAD – the outer layer will be applied only to the head
+# round_head=True – the head will be rounded at the corners
+
+totem_image = totem.generate()  # Returns a PIL.Image.Image object
 totem_image.save('totem.png')
 ```
 
@@ -76,10 +76,12 @@ totem_image.save('totem.png')
 ```python
 from wavy_totem_lib import TotemBuilder, SkinType
 
-totem = TotemBuilder('my_skin.png', SkinType.WIDE)
+totem = TotemBuilder('my_skin.png', skin_type=SkinType.WIDE)
+# skin_type allows you to set the skin type (slim or wide, default auto)
+
 totem.generate()
 totem.scale(factor=8) # Scaling from 16×16 to 128×128
-totem.raw.show() # PIL.Image is available in the `raw` variable
+totem.raw.show() # Image available in the `raw` variable
 ```
 
 > [!NOTE]
@@ -93,7 +95,7 @@ from wavy_totem_lib import AsyncTotemBuilder, SkinType, TopLayers
 
 async def main():
     # Using AsyncTotemBuilder class instead of TotemBuilder
-    totem = AsyncTotemBuilder('my_skin.png', SkinType.SLIM, TopLayers.HEAD_AND_HANDS)
+    totem = AsyncTotemBuilder('my_skin.png', skin_type=SkinType.SLIM, top_layers=TopLayers.HEAD_AND_HANDS)
     await totem.generate()
     await totem.scale(factor=4) # 64×64
     await totem.save('totem.png') # save() is only available in AsyncTotemBuilder
@@ -104,6 +106,20 @@ asyncio.run(main())
 > [!NOTE]
 > Although `generate()`, `scale()` and `raw` are of type `PIL.Image.Image`, suitable for saving a file, it is better to
 > use the built-in asynchronous `save` method instead.
+
+* Specifying a style
+
+```python
+from wavy_totem_lib import TotemBuilder, STTStyle
+
+# WavyStyle (default), STTStyle available
+totem = TotemBuilder('my_skin.png', style=STTStyle)
+totem.generate()
+totem.raw.save('totem.png')
+```
+
+> [!NOTE]
+> The generate() method accepts **kwargs, which will be passed on to the style class. None of the built-in styles support them.
 
 ## Enum values
 

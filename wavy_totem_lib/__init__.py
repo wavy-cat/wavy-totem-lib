@@ -6,8 +6,12 @@
 __title__ = "wavy-totem-lib"
 __author__ = "WavyCat"
 __license__ = "BSL-1.0"
-__version__ = "1.4.1"
+__version__ = ""
 
-from .sync import *
-from .aio import *
-from .options import *
+from .sync import TotemBuilder
+from .aio import AsyncTotemBuilder
+from .options import SkinType, TopLayers
+
+from .styles.wavy import WavyStyle
+from .styles.soul import STTStyle
+from .styles.abstract import AbstractStyle

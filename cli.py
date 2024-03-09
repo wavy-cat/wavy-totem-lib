@@ -41,7 +41,10 @@ enums = {'skin_type': {'auto': SkinType.SLIM, 'wide': SkinType.WIDE, 'slim': Ski
                         'only_torso': TopLayers.ONLY_TORSO, 'only_hands': TopLayers.ONLY_HANDS,
                         'head_and_torso': TopLayers.HEAD_AND_TORSO, 'head_and_hands': TopLayers.HEAD_AND_HANDS}}
 
-totem = TotemBuilder(skin_path, enums['skin_type'][skin_type], enums['top_layers'][top_layers], round_head)
+totem = TotemBuilder(skin_path,
+                     skin_type=enums['skin_type'][skin_type],
+                     top_layers=enums['top_layers'][top_layers],
+                     round_head=round_head)
 totem.generate()
 if scale > 1:
     totem.scale(factor=scale)

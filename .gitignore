@@ -2,3 +2,4 @@
 /skins/*
 poetry.lock
 /dist/
+/dev/

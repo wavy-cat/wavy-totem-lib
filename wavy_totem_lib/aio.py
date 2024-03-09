@@ -7,73 +7,85 @@ from asyncio import get_event_loop
 from asyncio.events import AbstractEventLoop
 from concurrent.futures import ThreadPoolExecutor, Executor
 from pathlib import Path
-from typing import Union, IO, Optional
+from typing import Union, IO, Optional, Type
 
 from PIL import Image
 
 from .options import SkinType, TopLayers
+from .styles.abstract import AbstractStyle
+from .styles.wavy import WavyStyle
 from .sync import TotemBuilder
 
 
 class AsyncTotemBuilder(TotemBuilder):
-    def __init__(self, file: Union[str, bytes, Path, IO[bytes]], skin_type: SkinType = SkinType.AUTO,
-                 top_layers: TopLayers = TopLayers.ALL, round_head: bool = False,
-                 loop: Optional[AbstractEventLoop] = None, executor: Executor = ThreadPoolExecutor()):
+    def __init__(self, file: Union[str, bytes, Path, IO[bytes]],
+                 style: Type[AbstractStyle] = WavyStyle,
+                 skin_type: SkinType = SkinType.AUTO,
+                 top_layers: TopLayers = TopLayers.ALL,
+                 round_head: bool = False,
+                 loop: Optional[AbstractEventLoop] = None,
+                 executor: Executor = ThreadPoolExecutor()):
         """
         An asynchronous wrapper for TotemBuilder.
 
-        :param file: The path or file-like object of the skin image.
-               Accepted types: str, bytes, Path, IO[bytes]
-        :param skin_type: The type of skin to apply to the image.
-               Accepted values: SkinType enum object (default: AUTO)
-        :param top_layers: Determines whether to add a 2nd layer to the image.
-               Accepted values: TopLayers enum object (default: ALL)
-        :param round_head: Determines whether to round the head shape.
-               Accepted values: bool (default: False)
+        Args:
+            file: The path or file-like object of the skin image.
+            style: A class representing a generation style.
+            skin_type: The type of skin to apply to the image.
+            top_layers: Determines whether to add an outer layer to the image.
+            round_head: Determines whether to round the head shape.
+            loop: The event loop used by the asyncio library
+            executor
+
+        Example:
+            ```
+            totem = AsyncTotemBuilder('my_skin.png')
+            await totem.generate()
+            await totem.scale(10)
+            await totem.save("totem.png")
+            ```
         """
-        super().__init__(file, skin_type, top_layers, round_head)
+
+        super().__init__(file, style, skin_type, top_layers, round_head)
         self.loop = loop if loop else get_event_loop()
         self.executor = executor
 
-    async def generate(self) -> Image.Image:
+    async def generate(self, **kwargs) -> Image.Image:
         """
-        Generates a ready-made totem image.
-        The parameters passed to the __init__ of the class are used.
+        This method generates a totem image using.
+        Additional customization can be done by passing keyword arguments (**kwargs) to the method
+        (possible options depend on style).
+        The generated image will be stored in the `raw` attribute of the object and will also be returned by the method.
 
+        :param kwargs: Additional keyword arguments to customize the created image.
         :return: The generated image.
-        :rtype: Image
-
-        Example usage:
-        ```
-        totem = TotemBuilder('my_skin.png', SkinType.SLIM, round_head=True)
-        totem_image = await totem.generate()
-        totem_image.show()
-        ```
         """
-        img = await self.loop.run_in_executor(self.executor, super().generate)
-        return img
+
+        return await self.loop.run_in_executor(self.executor, lambda: super().generate(**kwargs))
 
     async def scale(self, *, factor: int) -> Image.Image:
         """
         Scales the image by the given factor.
 
-        :param factor: The scaling factor.
-        :type factor: int
-        :raises EmptyTotem: If the totem is not generated.
-        :raises SmallScale: If the scaling factor is less than or equal to zero.
-        :return: The scaled image.
-        :rtype: Image
+        Args:
+            factor: The scaling factor.
 
-        Example usage:
-        ```
-        totem = TotemBuilder('my_skin.png', SkinType.WIDE)
-        await totem.generate() # Using generate() before scale() is mandatory
-        totem_image = await totem.scale(factor=16)
-        totem_image.show()
-        ```
+        Raises:
+            EmptyTotem: If the totem has not yet been generated.
+            SmallScale: If the scaling factor is less than 1.
+
+        Example:
+            ```
+            totem = AsyncTotemBuilder('my_skin.png')
+            await totem.generate()
+            await totem.scale(factor=10) # 16 × 10 = 160px
+            ```
+
+        Returns:
+            PIL.Image.Image: Generated totem image
         """
-        img = await self.loop.run_in_executor(self.executor, super().scale, factor)
-        return img
+
+        return await self.loop.run_in_executor(self.executor, super().scale, factor)
 
     async def save(self, filepath: Union[str, bytes, Path, IO[bytes]]):
         """
@@ -84,9 +96,10 @@ class AsyncTotemBuilder(TotemBuilder):
 
         Example usage:
         ```
-        totem = TotemBuilder('my_skin.png', SkinType.SLIM)
+        totem = AsyncTotemBuilder('my_skin.png')
         await totem.generate()
         await totem.save("totem.png")
         ```
         """
+
         await self.loop.run_in_executor(self.executor, self.raw.save, filepath)
