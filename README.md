@@ -104,8 +104,7 @@ asyncio.run(main())
 ```
 
 > [!NOTE]
-> Although `generate()`, `scale()` and `raw` are of type `PIL.Image.Image`, suitable for saving a file, it is better to
-> use the built-in asynchronous `save` method instead.
+> Although the methods `generate()`, `scale()` and the variable `raw` return values of type `PIL.Image.Image`, suitable for saving a file, it's advisable to use the built-in asynchronous save method instead.
 
 * Specifying a style
 
@@ -119,7 +118,9 @@ totem.raw.save('totem.png')
 ```
 
 > [!NOTE]
-> The generate() method accepts **kwargs, which will be passed on to the style class. None of the built-in styles support them.
+> The `generate()` method accepts **kwargs, which will be passed on to the style class. None of the built-in styles support them.
+
+> STTStyle taken from https://github.com/UnFamousSoul/STT
 
 ## Enum values
 
