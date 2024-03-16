@@ -2,6 +2,10 @@ name: Publish to PYPI
 
 on:
   release:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
     types:
       - created
 
@@ -13,8 +17,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-#        with:
-#          fetch-tags: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
