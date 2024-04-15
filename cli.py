@@ -26,7 +26,7 @@ parser.add_argument('--skin-type', '-t', dest='skin_type', type=str, nargs='?', 
 parser.add_argument('--top-layers', '-l', dest='top_layers', type=str, nargs='?',
                     choices=['nothing', 'all', 'only_head', 'only_torso', 'only_hands', 'head_and_torso',
                              'head_and_hands'], default='all', help='Zones 2 layers (default: all)')
-parser.add_argument('--round-head', '-r', dest='round_head', type=bool, nargs='?', default=False,
+parser.add_argument('--round-head', '-r', dest='round_head', type=str, nargs='?', default='false',
                     help='Should the head be rounded at the corners? (default: false)')
 parser.add_argument('--scale', '-s', dest='factor', type=check_scale, nargs='?', default=1,
                     help='Totem image scaling factor (default: 1 (without))')
@@ -35,7 +35,9 @@ parser.add_argument('--scale', '-s', dest='factor', type=check_scale, nargs='?',
 args = parser.parse_args()
 
 skin_path, output_path = args.skin_path[0], args.totem_path[0]
-skin_type, top_layers, round_head, scale = args.skin_type, args.top_layers, args.round_head, args.factor
+skin_type, top_layers, scale = args.skin_type, args.top_layers, args.factor
+round_head = False if args.round_head.lower() == 'false' else True
+
 enums = {'skin_type': {'auto': SkinType.SLIM, 'wide': SkinType.WIDE, 'slim': SkinType.SLIM},
          'top_layers': {'nothing': TopLayers.NOTHING, 'all': TopLayers.ALL, 'only_head': TopLayers.ONLY_HEAD,
                         'only_torso': TopLayers.ONLY_TORSO, 'only_hands': TopLayers.ONLY_HANDS,
