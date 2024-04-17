@@ -11,9 +11,24 @@ from PIL import Image
 
 class Skin:
     # TODO: Добавить логику для узких скинов
-    def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]]):
-        self.image: Image.Image = Image.open(filepath)
+    def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]], slim: bool = ...):
+        self.image = Image.open(filepath)
         self.version = 'new' if self.image.height == 64 else 'old'
+        self.is_slim = self._detect_slim() if slim is ... else slim
+
+        if self.image.mode != 'RGBA':
+            # Convert to RGBA if the mode is not RGBA
+            self.image = self.image.convert('RGBA')
+
+    def _detect_slim(self) -> bool:
+        """
+        Detects the skin type based on the transparency of a pixel in the source image.
+        False – wide, True – slim.
+        """
+
+        if self.image.height == 32:
+            return False
+        return False if bool(self.image.getpixel((46, 52))[3]) else True
 
     @property
     def right_leg(self) -> Dict[str, Image.Image]:
