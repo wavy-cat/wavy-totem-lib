@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "wavy-totem-lib"
 version = ""
-description = "Python library to generate totems of undying for Minecraft"
+description = "A library for generating the texture of Minecraft's Totem of Undying"
 authors = ["WavyCat <unknown@wavycat.ru>"]
 readme = "README.md"
 license = "BSL-1.0"
