@@ -4,19 +4,19 @@
 #           https://www.boost.org/LICENSE_1_0.txt)
 
 from pathlib import Path
-from typing import Union, IO
+from typing import Union, IO, Optional, Dict
 
 from PIL import Image
 
 
 class Skin:
-    # TODO: Добавить логику для старого типа скинов
+    # TODO: Добавить логику для узких скинов
     def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]]):
         self.image: Image.Image = Image.open(filepath)
         self.version = 'new' if self.image.height == 64 else 'old'
 
     @property
-    def right_leg(self) -> dict[str, Image.Image]:
+    def right_leg(self) -> Dict[str, Image.Image]:
         # Top, Bottom
         # Left, Front, Right, Back
         return {
@@ -33,7 +33,10 @@ class Skin:
         return self.image.crop((4, 20, 8, 32))
 
     @property
-    def right_leg_second(self) -> dict[str, Image.Image]:
+    def right_leg_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((4, 36, 8, 48)),
             'back': self.image.crop((12, 36, 16, 48)),
@@ -44,11 +47,16 @@ class Skin:
         }
 
     @property
-    def right_leg_second_front(self) -> Image.Image:
+    def right_leg_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((4, 36, 8, 48))
 
     @property
-    def left_leg(self) -> dict[str, Image.Image]:
+    def left_leg(self) -> Dict[str, Image.Image]:
+        if self.version == 'old':
+            return self.right_leg
+
         return {
             'front': self.image.crop((20, 52, 24, 64)),
             'back': self.image.crop((28, 52, 32, 64)),
@@ -60,10 +68,15 @@ class Skin:
 
     @property
     def left_leg_front(self) -> Image.Image:
+        if self.version == 'old':
+            return self.right_leg_front
         return self.image.crop((20, 52, 24, 64))
 
     @property
-    def left_leg_second(self) -> dict[str, Image.Image]:
+    def left_leg_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((4, 52, 8, 64)),
             'back': self.image.crop((12, 52, 16, 64)),
@@ -74,11 +87,13 @@ class Skin:
         }
 
     @property
-    def left_leg_second_front(self) -> Image.Image:
+    def left_leg_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((4, 52, 8, 64))
 
     @property
-    def right_hand(self) -> dict[str, Image.Image]:
+    def right_hand(self) -> Dict[str, Image.Image]:
         return {
             'front': self.image.crop((44, 20, 48, 32)),
             'back': self.image.crop((52, 20, 56, 32)),
@@ -93,7 +108,10 @@ class Skin:
         return self.image.crop((44, 20, 48, 32))
 
     @property
-    def right_hand_second(self) -> dict[str, Image.Image]:
+    def right_hand_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((44, 36, 48, 48)),
             'back': self.image.crop((52, 36, 56, 48)),
@@ -104,11 +122,16 @@ class Skin:
         }
 
     @property
-    def right_hand_second_front(self) -> Image.Image:
+    def right_hand_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((44, 36, 48, 48))
 
     @property
-    def left_hand(self) -> dict[str, Image.Image]:
+    def left_hand(self) -> Dict[str, Image.Image]:
+        if self.version == 'old':
+            return self.right_hand
+
         return {
             'front': self.image.crop((36, 52, 40, 64)),
             'back': self.image.crop((44, 52, 48, 64)),
@@ -120,10 +143,15 @@ class Skin:
 
     @property
     def left_hand_front(self) -> Image.Image:
+        if self.version == 'old':
+            return self.right_hand_front
         return self.image.crop((36, 52, 40, 64))
 
     @property
-    def left_hand_second(self) -> dict[str, Image.Image]:
+    def left_hand_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((52, 52, 56, 64)),
             'back': self.image.crop((60, 52, 64, 64)),
@@ -134,11 +162,13 @@ class Skin:
         }
 
     @property
-    def left_hand_second_front(self) -> Image.Image:
+    def left_hand_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((52, 52, 56, 64))
 
     @property
-    def body(self) -> dict[str, Image.Image]:
+    def body(self) -> Dict[str, Image.Image]:
         return {
             'front': self.image.crop((20, 20, 28, 32)),
             'back': self.image.crop((32, 20, 40, 32)),
@@ -153,7 +183,10 @@ class Skin:
         return self.image.crop((20, 20, 28, 32))
 
     @property
-    def body_second(self) -> dict[str, Image.Image]:
+    def body_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((20, 36, 28, 48)),
             'back': self.image.crop((32, 36, 40, 48)),
@@ -164,11 +197,13 @@ class Skin:
         }
 
     @property
-    def body_second_front(self) -> Image.Image:
+    def body_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((20, 36, 28, 48))
 
     @property
-    def head(self) -> dict[str, Image.Image]:
+    def head(self) -> Dict[str, Image.Image]:
         return {
             'front': self.image.crop((8, 8, 16, 16)),
             'back': self.image.crop((24, 8, 32, 16)),
@@ -183,7 +218,10 @@ class Skin:
         return self.image.crop((8, 8, 16, 16))
 
     @property
-    def head_second(self) -> dict[str, Image.Image]:
+    def head_second(self) -> Optional[Dict[str, Image.Image]]:
+        if self.version == 'old':
+            return None
+
         return {
             'front': self.image.crop((40, 8, 48, 16)),
             'back': self.image.crop((56, 8, 64, 16)),
@@ -194,15 +232,21 @@ class Skin:
         }
 
     @property
-    def head_second_front(self) -> Image.Image:
+    def head_second_front(self) -> Optional[Image.Image]:
+        if self.version == 'old':
+            return None
         return self.image.crop((40, 8, 48, 16))
 
 
-# if __name__ == '__main__':
-#     a = Skin('../dev/1_8_texturemap_redux.png').right_hand
-#     a['left'].save('../dev/left.png')
-#     a['right'].save('../dev/right.png')
-#     a['front'].save('../dev/front.png')
-#     a['back'].save('../dev/back.png')
-#     a['top'].save('../dev/top.png')
-#     a['bottom'].save('../dev/bottom.png')
+if __name__ == '__main__':
+    # В окончательном варианте skin.py этот код надо удалить
+    a = Skin('../dev/notch.png').head
+    if not a:
+        print(a)
+        exit()
+    a['left'].save('../dev/left.png')
+    a['right'].save('../dev/right.png')
+    a['front'].save('../dev/front.png')
+    a['back'].save('../dev/back.png')
+    a['top'].save('../dev/top.png')
+    a['bottom'].save('../dev/bottom.png')
