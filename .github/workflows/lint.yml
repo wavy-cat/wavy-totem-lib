@@ -28,4 +28,4 @@ jobs:
         run: pip install Pillow ruff
       - name: Lint
         run: |
-          ruff check . --target-version py38
+          ruff check .
