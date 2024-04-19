@@ -10,7 +10,6 @@ from PIL import Image
 
 
 class Skin:
-    # TODO: Добавить логику для узких скинов
     def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]], slim: bool = ...):
         self.image = Image.open(filepath)
         self.version = 'new' if self.image.height == 64 else 'old'
@@ -32,8 +31,9 @@ class Skin:
 
     @property
     def right_leg(self) -> Dict[str, Image.Image]:
+        # Note on side placement on skins
         # Top, Bottom
-        # Left, Front, Right, Back
+        # Left, Front, Right, Back.
         return {
             'front': self.image.crop((4, 20, 8, 32)),
             'back': self.image.crop((12, 20, 16, 32)),
@@ -109,6 +109,16 @@ class Skin:
 
     @property
     def right_hand(self) -> Dict[str, Image.Image]:
+        if self.is_slim:
+            return {
+                'front': self.image.crop((44, 20, 47, 32)),
+                'back': self.image.crop((51, 20, 54, 32)),
+                'left': self.image.crop((40, 20, 44, 32)),
+                'right': self.image.crop((47, 20, 51, 32)),
+                'top': self.image.crop((44, 16, 47, 20)),
+                'bottom': self.image.crop((47, 16, 51, 20))
+            }
+
         return {
             'front': self.image.crop((44, 20, 48, 32)),
             'back': self.image.crop((52, 20, 56, 32)),
@@ -120,12 +130,24 @@ class Skin:
 
     @property
     def right_hand_front(self) -> Image.Image:
+        if self.is_slim:
+            return self.image.crop((44, 20, 47, 32))
         return self.image.crop((44, 20, 48, 32))
 
     @property
     def right_hand_second(self) -> Optional[Dict[str, Image.Image]]:
         if self.version == 'old':
             return None
+
+        if self.is_slim:
+            return {
+                'front': self.image.crop((44, 36, 47, 48)),
+                'back': self.image.crop((51, 36, 54, 48)),
+                'left': self.image.crop((40, 36, 44, 48)),
+                'right': self.image.crop((47, 36, 51, 48)),
+                'top': self.image.crop((44, 32, 47, 36)),
+                'bottom': self.image.crop((47, 32, 51, 36))
+            }
 
         return {
             'front': self.image.crop((44, 36, 48, 48)),
@@ -140,12 +162,26 @@ class Skin:
     def right_hand_second_front(self) -> Optional[Image.Image]:
         if self.version == 'old':
             return None
+
+        if self.is_slim:
+            return self.image.crop((44, 36, 48, 48))
+
         return self.image.crop((44, 36, 48, 48))
 
     @property
     def left_hand(self) -> Dict[str, Image.Image]:
         if self.version == 'old':
             return self.right_hand
+
+        if self.is_slim:
+            return {
+                'front': self.image.crop((36, 52, 39, 64)),
+                'back': self.image.crop((43, 52, 47, 64)),
+                'left': self.image.crop((32, 52, 36, 64)),
+                'right': self.image.crop((39, 52, 43, 64)),
+                'top': self.image.crop((36, 48, 39, 52)),
+                'bottom': self.image.crop((39, 48, 43, 52))
+            }
 
         return {
             'front': self.image.crop((36, 52, 40, 64)),
@@ -160,12 +196,26 @@ class Skin:
     def left_hand_front(self) -> Image.Image:
         if self.version == 'old':
             return self.right_hand_front
+
+        if self.is_slim:
+            return self.image.crop((36, 52, 39, 64))
+
         return self.image.crop((36, 52, 40, 64))
 
     @property
     def left_hand_second(self) -> Optional[Dict[str, Image.Image]]:
         if self.version == 'old':
             return None
+
+        if self.is_slim:
+            return {
+                'front': self.image.crop((52, 52, 55, 64)),
+                'back': self.image.crop((59, 52, 62, 64)),
+                'left': self.image.crop((48, 52, 52, 64)),
+                'right': self.image.crop((55, 52, 59, 64)),
+                'top': self.image.crop((52, 48, 55, 52)),
+                'bottom': self.image.crop((55, 48, 59, 52))
+            }
 
         return {
             'front': self.image.crop((52, 52, 56, 64)),
@@ -180,6 +230,10 @@ class Skin:
     def left_hand_second_front(self) -> Optional[Image.Image]:
         if self.version == 'old':
             return None
+
+        if self.is_slim:
+            return self.image.crop((52, 52, 55, 64))
+
         return self.image.crop((52, 52, 56, 64))
 
     @property
@@ -251,17 +305,3 @@ class Skin:
         if self.version == 'old':
             return None
         return self.image.crop((40, 8, 48, 16))
-
-
-if __name__ == '__main__':
-    # В окончательном варианте skin.py этот код надо удалить
-    a = Skin('../dev/notch.png').head
-    if not a:
-        print(a)
-        exit()
-    a['left'].save('../dev/left.png')
-    a['right'].save('../dev/right.png')
-    a['front'].save('../dev/front.png')
-    a['back'].save('../dev/back.png')
-    a['top'].save('../dev/top.png')
-    a['bottom'].save('../dev/bottom.png')
