@@ -1,4 +1,4 @@
-#           Copyright WavyCat 2024 - 2025.
+#                  Copyright WavyCat 2024.
 #  Distributed under the Boost Software License, Version 1.0.
 #         (See accompanying file LICENSE or copy at
 #           https://www.boost.org/LICENSE_1_0.txt)
@@ -7,16 +7,16 @@ from typing import Type
 
 from PIL import Image
 
-from wavy_totem_lib import SkinType, TopLayers
-from wavy_totem_lib.exceptions import SmallScale
-from wavy_totem_lib.styles.abstract import AbstractStyle
+from .options import TopLayers
+from .exceptions import SmallScale
+from .styles.abstract import AbstractStyle
 
 
 class Totem:
-    def __init__(self, image: Image.Image, model: SkinType, style: Type[AbstractStyle], rounded_head: bool,
-                 top_layers: list[TopLayers]):
+    def __init__(self, image: Image.Image, style: Type[AbstractStyle], slim: bool, top_layers: list[TopLayers],
+                 rounded_head: bool):
         self.image = image
-        self.model = model
+        self.slim = slim
         self.style = style
         self.rounded_head = rounded_head
         self.top_layers = top_layers
