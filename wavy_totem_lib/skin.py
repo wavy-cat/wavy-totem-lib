@@ -1,4 +1,4 @@
-#           Copyright WavyCat 2024 - 2025.
+#                  Copyright WavyCat 2024.
 #  Distributed under the Boost Software License, Version 1.0.
 #         (See accompanying file LICENSE or copy at
 #           https://www.boost.org/LICENSE_1_0.txt)
@@ -13,10 +13,11 @@ class Skin:
     def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]], slim: bool = ...):
         self.image = Image.open(filepath)
         self.version = 'new' if self.image.height == 64 else 'old'
+        self.available_second = True if self.version == 'new' else False
         self.is_slim = self._detect_slim() if slim is ... else slim
 
         if self.image.mode != 'RGBA':
-            # Convert to RGBA if the mode is not RGBA
+            # Convert to RGBA if the mode differs from RGBA
             self.image = self.image.convert('RGBA')
 
     def _detect_slim(self) -> bool:
@@ -49,7 +50,7 @@ class Skin:
 
     @property
     def right_leg_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         return {
@@ -63,7 +64,7 @@ class Skin:
 
     @property
     def right_leg_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
         return self.image.crop((4, 36, 8, 48))
 
@@ -89,7 +90,7 @@ class Skin:
 
     @property
     def left_leg_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         return {
@@ -103,7 +104,7 @@ class Skin:
 
     @property
     def left_leg_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
         return self.image.crop((4, 52, 8, 64))
 
@@ -136,7 +137,7 @@ class Skin:
 
     @property
     def right_hand_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         if self.is_slim:
@@ -160,7 +161,7 @@ class Skin:
 
     @property
     def right_hand_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         if self.is_slim:
@@ -204,7 +205,7 @@ class Skin:
 
     @property
     def left_hand_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         if self.is_slim:
@@ -228,7 +229,7 @@ class Skin:
 
     @property
     def left_hand_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         if self.is_slim:
@@ -253,7 +254,7 @@ class Skin:
 
     @property
     def body_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         return {
@@ -267,7 +268,7 @@ class Skin:
 
     @property
     def body_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
         return self.image.crop((20, 36, 28, 48))
 
@@ -288,7 +289,7 @@ class Skin:
 
     @property
     def head_second(self) -> Optional[Dict[str, Image.Image]]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
 
         return {
@@ -302,6 +303,6 @@ class Skin:
 
     @property
     def head_second_front(self) -> Optional[Image.Image]:
-        if self.version == 'old':
+        if not self.available_second:
             return None
         return self.image.crop((40, 8, 48, 16))
