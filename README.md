@@ -109,9 +109,9 @@ Created by @wavy-cat.
 Class name: `WavyStyle`.
 This is the default style in TotemBuilder.
 
-| Basil                           | Sylphiette                           | PWGood                           |
-|---------------------------------|--------------------------------------|----------------------------------|
-| ![Image](assets/basil_wavy.png) | ![Image](assets/sylphiette_wavy.png) | ![Image](assets/pwgood_wavy.png) |
+| Basil                                                                                          | Sylphiette                                                                                          | PWGood                                                                                          |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/basil_wavy.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/sylphiette_wavy.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/pwgood_wavy.png) |
 
 ```python
 from wavy_totem_lib import TotemBuilder, WavyStyle
@@ -126,9 +126,9 @@ Created by @UnFamousSoul.
 The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/STT) repository.
 Class name: `STTStyle`.
 
-| Basil                          | Sylphiette                          | PWGood                          |
-|--------------------------------|-------------------------------------|---------------------------------|
-| ![Image](assets/basil_stt.png) | ![Image](assets/sylphiette_stt.png) | ![Image](assets/pwgood_stt.png) |
+| Basil                                                                                         | Sylphiette                                                                                         | PWGood                                                                                         |
+|-----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/basil_stt.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/sylphiette_stt.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/pwgood_stt.png) |
 
 ```python
 from wavy_totem_lib import TotemBuilder, STTStyle
