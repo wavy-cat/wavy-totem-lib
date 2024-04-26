@@ -1,26 +1,26 @@
+#                  Copyright WavyCat 2024.
+#  Distributed under the Boost Software License, Version 1.0.
+#         (See accompanying file LICENSE or copy at
+#           https://www.boost.org/LICENSE_1_0.txt)
+
 from PIL import Image, ImageOps
 
 from .abstract import AbstractStyle
-from ..options import SkinType, TopLayers
+from ..skin import Skin
+from ..options import TopLayers
 
 
 class STTStyle(AbstractStyle):
     """Style taken from the UnFamousSoul/STT project (https://github.com/UnFamousSoul/STT)"""
 
-    def __init__(self, skin: Image.Image, skin_type: SkinType, top_layers: TopLayers, **kwargs):
-        super().__init__(skin, skin_type, top_layers, **kwargs)
+    def __init__(self, skin: Skin, top_layers: list[TopLayers], **kwargs):
+        super().__init__(skin, top_layers, **kwargs)
 
-    @staticmethod
-    def _head(skin, uol):
-        head = Image.new("RGBA", (8, 8))
+    def _add_head(self):
+        self._canvas.paste(self.skin.head_front, (4, 1))
 
-        head.paste(skin.crop((8, 8, 16, 16)), (0, 0))
-        if uol:
-            l21 = skin.crop((40, 8, 48, 9))
-            l22 = skin.crop((40, 9, 48, 16))
-            head.paste(l21, (0, 0), l21)
-            head.paste(l22, (0, 1), l22)
-        return head
+        if self.skin.available_second and TopLayers.HEAD in self.top_layers:
+            self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
 
     @staticmethod
     def _body(skin, uol):
@@ -75,11 +75,11 @@ class STTStyle(AbstractStyle):
         return legs
 
     @staticmethod
-    def _arms(skin, uol):
+    def _arms(skin, uol, slim):
         arms = Image.new("RGBA", (14, 3))
 
-        arms.paste(skin.crop((37, 52, 40, 54)).rotate(90, expand=True), (11, 0))
-        arms.paste(skin.crop((44, 20, 47, 22)).rotate(-90, expand=True), (1, 0))
+        arms.paste(skin.crop((37, 52, 39, 54) if slim else (37, 52, 40, 54)).rotate(90, expand=True), (11, 0))
+        arms.paste(skin.crop((44, 20, 46, 22) if slim else (44, 20, 47, 22)).rotate(-90, expand=True), (1, 0))
         arms.paste(skin.crop((39, 63, 40, 64)), (13, 0))
         arms.paste(skin.crop((36, 63, 37, 64)), (13, 1))
         arms.paste(skin.crop((44, 31, 45, 32)), (0, 0))
@@ -104,18 +104,17 @@ class STTStyle(AbstractStyle):
 
     @property
     def image(self) -> Image.Image:
-        torso = self._body(self._source, True if self._top_layers.value in (1, 3, 5) else False)
-        head = self._head(self._source, True if self._top_layers.value in (1, 2, 5, 6) else False)
-        legs = self._legs(self._source, True if self._top_layers.value in (1, 3, 5) else False)
-        arms = self._arms(self._source, True if self._top_layers.value in (1, 4, 6) else False)
+        torso = self._body(self.skin.image, TopLayers.TORSO in self.top_layers)
+        legs = self._legs(self.skin.image, TopLayers.LEGS in self.top_layers)
+        arms = self._arms(self.skin.image, TopLayers.HANDS in self.top_layers, self.skin.is_slim)
 
         self._canvas.paste(arms, (1, 8))
         self._canvas.paste(legs, (5, 13))
 
-        if self._source.height == 32:
+        if self.skin.version == 'old':
             self._canvas.paste(ImageOps.mirror(self._canvas.crop((0, 0, 8, 16))), (8, 0))
 
         self._canvas.paste(torso, (4, 9))
-        self._canvas.paste(head, (4, 1))
+        self._add_head()
 
         return self._canvas

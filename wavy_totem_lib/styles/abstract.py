@@ -1,33 +1,32 @@
-#          Copyright WavyCat 2024 - 2025.
-# Distributed under the Boost Software License, Version 1.0.
-#        (See accompanying file LICENSE or copy at
-#          https://www.boost.org/LICENSE_1_0.txt)
+#                  Copyright WavyCat 2024.
+#  Distributed under the Boost Software License, Version 1.0.
+#         (See accompanying file LICENSE or copy at
+#           https://www.boost.org/LICENSE_1_0.txt)
 
 from abc import ABC, abstractmethod
 
 from PIL import Image
 
-from ..options import SkinType, TopLayers
+from ..options import TopLayers
+from ..skin import Skin
 
 
 class AbstractStyle(ABC):
     """Abstract style class. Use to create other styles."""
 
     @abstractmethod
-    def __init__(self, skin: Image.Image, skin_type: SkinType, top_layers: TopLayers, **kwargs):
+    def __init__(self, skin: Skin, top_layers: list[TopLayers], **kwargs):
         """
         Initializing method.
 
         Args:
             skin: PIL.Image.Image
-            skin_type: SkinType
-            top_layers: TopLayers
-            **_kwargs - extra options
+            top_layers: list[TopLayers]
+            **kwargs - extra options
         """
-        self._source = skin  # Skin Image object
-        self._skin_type = skin_type
-        self._top_layers = top_layers
-        self._kwargs = kwargs
+        self.skin = skin
+        self.top_layers = top_layers
+        self.kwargs = kwargs
         self._canvas = Image.new("RGBA", (16, 16))
 
     @property
