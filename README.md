@@ -135,3 +135,10 @@ from wavy_totem_lib import TotemBuilder, STTStyle
 
 TotemBuilder(style=STTStyle)
 ```
+
+<p align="center">
+<br>
+<samp>
+Made with 💚 by WavyCat.
+</samp>
+</p>
