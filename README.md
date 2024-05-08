@@ -61,9 +61,10 @@ scaled.save('totem.png')
 
 ```python
 import asyncio
-import aiofiles  # This package must be installed
 from io import BytesIO
 from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayers
+# To save a file asynchronously, install the aiofiles package
+import aiofiles
 
 
 async def main():
@@ -95,8 +96,6 @@ totem.image.save('totem.png')
 > [!NOTE]
 > The `generate()` method accepts **kwargs, which will be passed on to the style class. None of the built-in styles
 > support them.
-
-> STTStyle taken from https://github.com/UnFamousSoul/STT
 
 ## Styles
 
@@ -139,6 +138,6 @@ TotemBuilder(style=STTStyle)
 <p align="center">
 <br>
 <samp>
-Made with 💚 by WavyCat.
+2024. Made with 💚 by WavyCat on Earth.
 </samp>
 </p>
