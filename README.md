@@ -55,7 +55,7 @@ scaled.save('totem.png')
 ```
 
 > [!NOTE]
-> To scale up, use the built-in `scale` method instead of `raw.resize` from Pillow, because it may blur the image.
+> To scale up, use the built-in `scale()` method instead of `resize()` from Pillow, because it may blur the image.
 
 * Asynchronous generation:
 
