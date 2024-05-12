@@ -11,7 +11,7 @@ __version__ = ""
 from .builder import TotemBuilder
 from .totem import Totem
 from .skin import Skin
-from .options import TopLayers, ALL_TOP_LAYERS
+from .options import TopLayer, ALL_TOP_LAYERS
 
 from .styles.wavy import WavyStyle
 from .styles.soul import STTStyle

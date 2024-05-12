@@ -7,13 +7,28 @@ from typing import Type
 
 from PIL import Image
 
-from .options import TopLayers
+from .options import TopLayer
 from .exceptions import SmallScale
 from .styles.abstract import AbstractStyle
 
 
 class Totem:
-    def __init__(self, image: Image.Image, style: Type[AbstractStyle], slim: bool, top_layers: list[TopLayers],
+    """
+    The `Totem` class represents a Minecraft totem texture.
+    Usually this class get after the work of a style or builder.
+
+    :param image: An Image object from PIL.
+    :rtype image: Image
+    :param style: The style used to create the totem.
+    :rtype style: Type[AbstractStyle]
+    :param slim: Determines whether the totem is slim.
+    :rtype slim: bool
+    :param top_layers: List of included second layers.
+    :rtype top_layers: list[TopLayers]
+    :param rounded_head: Determines whether the head is rounded or not.
+    :rtype rounded_head: bool
+    """
+    def __init__(self, image: Image.Image, style: Type[AbstractStyle], slim: bool, top_layers: list[TopLayer],
                  rounded_head: bool):
         self.image = image
         self.slim = slim
@@ -22,6 +37,15 @@ class Totem:
         self.top_layers = top_layers
 
     def scale(self, *, factor: int) -> Image.Image:
+        """
+        Scale method scales an image by a given factor.
+
+        :param factor: The factor by which the image will be scaled. Must be greater than 0.
+        :rtype factor: int
+        :return: The scaled image as an instance of Image from PIL.
+
+        :raises SmallScale: If the scale factor is less than or equal to 0.
+        """
         if factor <= 0:
             raise SmallScale()
 

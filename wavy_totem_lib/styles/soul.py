@@ -7,19 +7,21 @@ from PIL import Image, ImageOps
 
 from .abstract import AbstractStyle
 from ..skin import Skin
-from ..options import TopLayers
+from ..options import TopLayer
 
 
 class STTStyle(AbstractStyle):
-    """Style taken from the UnFamousSoul/STT project (https://github.com/UnFamousSoul/STT)"""
+    """
+    Style taken from the UnFamousSoul/STT repository (https://github.com/UnFamousSoul/STT)
+    """
 
-    def __init__(self, skin: Skin, top_layers: list[TopLayers], **kwargs):
+    def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
         super().__init__(skin, top_layers, **kwargs)
 
     def _add_head(self):
         self._canvas.paste(self.skin.head_front, (4, 1))
 
-        if self.skin.available_second and TopLayers.HEAD in self.top_layers:
+        if self.skin.available_second and TopLayer.HEAD in self.top_layers:
             self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
 
     @staticmethod
@@ -104,9 +106,9 @@ class STTStyle(AbstractStyle):
 
     @property
     def image(self) -> Image.Image:
-        torso = self._body(self.skin.image, TopLayers.TORSO in self.top_layers)
-        legs = self._legs(self.skin.image, TopLayers.LEGS in self.top_layers)
-        arms = self._arms(self.skin.image, TopLayers.HANDS in self.top_layers, self.skin.is_slim)
+        torso = self._body(self.skin.image, TopLayer.TORSO in self.top_layers)
+        legs = self._legs(self.skin.image, TopLayer.LEGS in self.top_layers)
+        arms = self._arms(self.skin.image, TopLayer.HANDS in self.top_layers, self.skin.is_slim)
 
         self._canvas.paste(arms, (1, 8))
         self._canvas.paste(legs, (5, 13))

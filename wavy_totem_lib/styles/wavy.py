@@ -6,21 +6,24 @@
 from PIL import Image
 
 from .abstract import AbstractStyle
-from ..options import TopLayers
+from ..options import TopLayer
 from ..skin import Skin
 
 
 class WavyStyle(AbstractStyle):
-    """The default style, which has existed since the first versions. Created by WavyCat."""
+    """
+    The default style, which has existed since the first versions.
+    Created by WavyCat.
+    """
 
-    def __init__(self, skin: Skin, top_layers: list[TopLayers], **kwargs):
+    def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
         super().__init__(skin, top_layers, **kwargs)
 
     def _add_head(self):
         """Adds a head to the totem image"""
         self._canvas.paste(self.skin.head_front, (4, 1))
 
-        if self.skin.available_second and TopLayers.HEAD in self.top_layers:
+        if self.skin.available_second and TopLayer.HEAD in self.top_layers:
             self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
 
     def _add_hands(self):
@@ -35,7 +38,7 @@ class WavyStyle(AbstractStyle):
         dest_left, dest_right = [(3, 8), (2, 8), (1, 8)], [(12, 8), (13, 8), (14, 8)]
         left_hand, right_hand = self.skin.left_hand_front, self.skin.right_hand_front
         left_hand_top, right_hand_top = self.skin.left_hand_second_front, self.skin.right_hand_second_front
-        use_second_layer = self.skin.available_second and TopLayers.HANDS in self.top_layers
+        use_second_layer = self.skin.available_second and TopLayer.HANDS in self.top_layers
 
         for map_ind, map_val in enumerate(skin_map):
             line_left = left_hand.crop(map_val[0]).resize(map_val[1]).rotate(90, expand=True)
@@ -53,7 +56,7 @@ class WavyStyle(AbstractStyle):
         """Adds a torso to the totem image"""
         self._canvas.paste(self.skin.body_front.resize((8, 7)), (4, 9))
 
-        if self.skin.available_second and TopLayers.TORSO in self.top_layers:
+        if self.skin.available_second and TopLayer.TORSO in self.top_layers:
             self._canvas.alpha_composite(self.skin.body_second_front.resize((8, 7)), (4, 9))
 
         # Empty pixels
@@ -67,7 +70,7 @@ class WavyStyle(AbstractStyle):
 
         self._canvas.alpha_composite(self.skin.image.crop((22, 31, 26, 32)), (6, 14))  # Just above a legs
 
-        if self.skin.available_second and TopLayers.LEGS in self.top_layers:
+        if self.skin.available_second and TopLayer.LEGS in self.top_layers:
             self._canvas.alpha_composite(self.skin.right_leg_second_front.crop((0, 11, 4, 12)).resize((2, 1)), (8, 15))
             self._canvas.alpha_composite(self.skin.left_leg_second_front.crop((0, 11, 4, 12)).resize((2, 1)), (6, 15))
 

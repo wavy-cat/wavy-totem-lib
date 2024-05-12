@@ -6,7 +6,7 @@
 from enum import Enum
 
 
-class TopLayers(Enum):
+class TopLayer(Enum):
     """
     Represents the available options for top layers of skin.
     Available values: HEAD, TORSO, HANDS, LEGS.
@@ -18,4 +18,4 @@ class TopLayers(Enum):
     LEGS = 48
 
 
-ALL_TOP_LAYERS = [TopLayers.HEAD, TopLayers.TORSO, TopLayers.HANDS, TopLayers.LEGS]
+ALL_TOP_LAYERS = [TopLayer.HEAD, TopLayer.TORSO, TopLayer.HANDS, TopLayer.LEGS]

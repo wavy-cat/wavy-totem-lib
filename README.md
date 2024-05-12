@@ -30,11 +30,11 @@ Python library to generate totems of undying for Minecraft.
 * Quick generation:
 
 ```python
-from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayers
+from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayer
 
 builder = TotemBuilder(
     Skin('my_skin.png'),
-    top_layers=[TopLayers.HEAD],  # the second layer will be applied only to the head
+    top_layers=[TopLayer.HEAD],  # the second layer will be applied only to the head
     round_head=True  # the head will be rounded at the corners
 )
 
@@ -45,7 +45,7 @@ totem.image.save('totem.png')  # .image is Pillow image
 * Generation and scaling:
 
 ```python
-from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayers
+from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayer
 
 builder = TotemBuilder(Skin('my_skin.png', slim=True))
 
@@ -62,14 +62,14 @@ scaled.save('totem.png')
 ```python
 import asyncio
 from io import BytesIO
-from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayers
+from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayer
 # To save a file asynchronously, install the aiofiles package
 import aiofiles
 
 
 async def main():
     builder = TotemBuilder(Skin('my_skin.png', slim=False),
-                           top_layers=[TopLayers.HEAD, TopLayers.HANDS],
+                           top_layers=[TopLayer.HEAD, TopLayer.HANDS],
                            round_head=True)
     totem: Totem = await builder.build_async()
     temp = BytesIO()
@@ -134,10 +134,3 @@ from wavy_totem_lib import TotemBuilder, STTStyle
 
 TotemBuilder(style=STTStyle)
 ```
-
-<p align="center">
-<br>
-<samp>
-2024. Made with 💚 by WavyCat on Earth.
-</samp>
-</p>
