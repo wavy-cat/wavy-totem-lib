@@ -18,15 +18,10 @@ class Totem:
     Usually this class get after the work of a style or builder.
 
     :param image: An Image object from PIL.
-    :rtype image: Image
     :param style: The style used to create the totem.
-    :rtype style: Type[AbstractStyle]
     :param slim: Determines whether the totem is slim.
-    :rtype slim: bool
     :param top_layers: List of included second layers.
-    :rtype top_layers: list[TopLayers]
     :param rounded_head: Determines whether the head is rounded or not.
-    :rtype rounded_head: bool
     """
     def __init__(self, image: Image.Image, style: Type[AbstractStyle], slim: bool, top_layers: list[TopLayer],
                  rounded_head: bool):

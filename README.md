@@ -99,7 +99,7 @@ totem.image.save('totem.png')
 
 ## Styles
 
-> [!IMPORTANT]
+> [!NOTE]
 > You can create your own styles by inheriting the `AbstractStyle` class and implementing the `image` property.
 
 ### Wavy
@@ -116,7 +116,7 @@ This is the default style in TotemBuilder.
 from wavy_totem_lib import TotemBuilder, WavyStyle
 
 TotemBuilder(style=WavyStyle)
-# You can also not specify style at all, because WavyStyle - default style
+# You can also not specify style at all, because WavyStyle – default style.
 ```
 
 ### STT

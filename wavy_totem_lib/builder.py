@@ -20,13 +20,9 @@ class TotemBuilder:
     A class designed to obtain the Totem class from Skin using the passed style.
 
     :param skin: The skin object to use for building the totem.
-    :type skin: Skin
     :param style: The style class to use for building the totem. Defaults to WavyStyle.
-    :type style: Type[AbstractStyle], optional
     :param top_layers: A list of top layers to apply to the totem. Defaults to ALL_TOP_LAYERS.
-    :type top_layers: list[TopLayers] | None, optional
     :param round_head: Determines whether to round the head or not. Defaults to False.
-    :type round_head: bool, optional
     """
     def __init__(self, skin: Skin, style: Type[AbstractStyle] = WavyStyle,
                  top_layers: list[TopLayer] | None = ALL_TOP_LAYERS, round_head: bool = False):

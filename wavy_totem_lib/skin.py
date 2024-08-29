@@ -15,9 +15,7 @@ class Skin:
     It provides methods to extract specific parts of the skin image such as the legs, hands, head, etc.
 
     :param filepath: Path or byte representation of the skin file.
-    :type filepath: Union[str, bytes, Path, IO[bytes]]
-    :param slim: Determines whether the skin is slim or not.
-    :type slim: bool
+    :param slim: Determines whether the skin is slim or not. `Ellipsis` is used for auto-detection.
     """
     def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]], slim: bool = ...):
         self.image = Image.open(filepath)

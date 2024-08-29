@@ -12,10 +12,10 @@ class TopLayer(Enum):
     Available values: HEAD, TORSO, HANDS, LEGS.
     """
 
-    HEAD = 8
-    TORSO = 24
-    HANDS = 32
-    LEGS = 48
+    HEAD = 2 << 2
+    TORSO = 2 << 4
+    HANDS = 2 << 6
+    LEGS = 2 << 8
 
 
 ALL_TOP_LAYERS = [TopLayer.HEAD, TopLayer.TORSO, TopLayer.HANDS, TopLayer.LEGS]
