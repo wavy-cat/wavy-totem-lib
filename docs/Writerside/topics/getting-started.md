@@ -1,9 +1,15 @@
+<web-summary>
+    Installing and getting started with wavy-totem-lib.
+</web-summary>
+
 # Getting started
+
+## About
 
 The wavy-totem-lib is a Python library for creating custom totem of undying textures for the game Minecraft based on
 custom player skins.
 
-## Features
+### Features
 
 * Support for old (64x32) skins
 * Zoning of the second layer and rounding of the head

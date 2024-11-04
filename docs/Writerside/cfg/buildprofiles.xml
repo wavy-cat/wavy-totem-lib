@@ -9,8 +9,6 @@
         <download-title>Get on PyPI</download-title>
         <download-page>https://pypi.org/project/wavy-totem-lib</download-page>
         <showDownloadButton>true</showDownloadButton>
-
-        <offline-docs>true</offline-docs>
     </variables>
     <build-profile instance="w">
         <variables>

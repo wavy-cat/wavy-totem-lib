@@ -14,8 +14,8 @@
 
         <!--    Add up to 2 topics that you want to promote. Use the "type" attribute to select an icon.    -->
         <spotlight>
-            <a href="getting-started.md" summary="Install and start working with the library"/>
-            <a href="Concepts.md" summary="Check out the concepts"/>
+            <a href="getting-started.md" type="start" summary="Install and start working with the library"/>
+            <a href="Concepts.md" type="learn" summary="Check out the concepts"/>
         </spotlight>
 
         <primary>
@@ -26,8 +26,8 @@
 
         <secondary>
             <title>Contributing</title>
-            <a href="https://github.com/wavy-cat/wavy-totem-lib/issues" summary="Found a bug? Report it!">Issue tracker</a>
-            <a href="https://github.com/wavy-cat/wavy-totem-lib" summary="Learn the code">Repository</a>
+            <a type="bug" href="https://github.com/wavy-cat/wavy-totem-lib/issues" summary="Found a bug? Report it!">Issue tracker</a>
+            <a type="open-source" href="https://github.com/wavy-cat/wavy-totem-lib" summary="Learn the code">Repository</a>
         </secondary>
     </section-starting-page>
 

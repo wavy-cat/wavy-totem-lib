@@ -44,6 +44,8 @@ Obtaining the back of the left arm in a style method:
 ```
 { src="skin/methods.py" }
 
-## Related Resources
-
-- [Skin on Minecraft.Wiki](https://minecraft.wiki/w/Skin)
+<seealso>
+       <category ref="mine">
+           <a href="https://minecraft.wiki/w/Skin">Skin page</a>
+       </category>
+</seealso>
