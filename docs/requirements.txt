@@ -1,2 +1,0 @@
-Sphinx~=7.3.7
-sphinx-immaterial~=0.11.11

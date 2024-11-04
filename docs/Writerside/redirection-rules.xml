@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="4d68100e">
+        <description>Created after removal of "Section Starting Page" from wavy-totem-lib</description>
+        <accepts>Section-Starting-Page.html</accepts>
+    </rule>
+    <rule id="5950ff51">
+        <description>Created after removal of "Overview" from wavy-totem-lib</description>
+        <accepts>overview.html</accepts>
+    </rule>
+</rules>

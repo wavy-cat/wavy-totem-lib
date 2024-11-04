@@ -3,4 +3,4 @@
 poetry.lock
 /dist/
 /dev/
-/docs/_build/
+.idea
