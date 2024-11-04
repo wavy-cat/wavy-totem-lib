@@ -12,6 +12,7 @@ permissions:
 env:
   INSTANCE: 'Writerside/w'
   ARTIFACT: 'webHelpW2-all.zip'
+  ARTIFACT_INDEXES: 'algolia-indexes-W.zip'
   DOCKER_VERSION: '242.21870'
 
 jobs:
@@ -36,6 +37,7 @@ jobs:
           name: docs
           path: |
             artifacts/${{ env.ARTIFACT }}
+            artifacts/${{ env.ARTIFACT_INDEXES }}
             artifacts/report.json
           retention-days: 7
   test:
