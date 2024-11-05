@@ -20,6 +20,8 @@ custom player skins.
 
 ## Installation
 
+<note>Minimum Python version: 3.8</note>
+
 <tabs>
     <tab id="poetry-install" title="Poetry">
         <code-block>poetry add wavy-totem-lib</code-block>
