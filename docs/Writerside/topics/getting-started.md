@@ -26,6 +26,9 @@ custom player skins.
     <tab id="poetry-install" title="Poetry">
         <code-block>poetry add wavy-totem-lib</code-block>
     </tab>
+    <tab id="uv-install" title="uv">
+        <code-block>uv add wavy-totem-lib</code-block>
+    </tab>
     <tab id="pip-install" title="pip">
         <code-block>pip install wavy-totem-lib</code-block>
     </tab>
