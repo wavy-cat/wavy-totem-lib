@@ -1,4 +1,4 @@
-from wavy_totem_lib import TotemBuilder, Skin, Totem, ALL_TOP_LAYERS
+from wavy_totem_lib import TotemBuilder, Skin, ALL_TOP_LAYERS
 
 builder = TotemBuilder(
     Skin('skin.png'),  # Specify the skin object
