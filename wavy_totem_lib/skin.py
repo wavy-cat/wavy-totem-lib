@@ -12,13 +12,14 @@ from PIL import Image
 class Skin:
     def __init__(self, filepath: Union[str, bytes, Path, IO[bytes]], slim: bool = ...):
         self.image = Image.open(filepath)
-        self.version = 'new' if self.image.height == 64 else 'old'
-        self.available_second = True if self.version == 'new' else False
-        self.is_slim = self._detect_slim() if slim is ... else slim
 
         if self.image.mode != 'RGBA':
             # Convert to RGBA if the mode differs from RGBA
             self.image = self.image.convert('RGBA')
+
+        self.version = 'new' if self.image.height == 64 else 'old'
+        self.available_second = True if self.version == 'new' else False
+        self.is_slim = self._detect_slim() if slim is ... else slim
 
     def _detect_slim(self) -> bool:
         """
