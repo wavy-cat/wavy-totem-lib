@@ -6,16 +6,20 @@ on:
       - main
     paths-ignore:
       - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
   pull_request:
     types:
       - opened
       - synchronize
     paths-ignore:
       - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
