@@ -15,19 +15,27 @@ Python library to generate totems of undying for Minecraft.
 * Supports PyPy
 * Supports different styles
 
-## Requirements
-
-* python >= 3.8
-* Pillow >= 10.0.0
-
 ## Installing
 
-* Using poetry: `poetry add wavy-totem-lib`
-* Using pip: `pip install wavy-totem-lib`
+#### Using uv
 
-## Examples
+```bash
+uv add wavy-totem-lib
+```
 
-* Quick generation:
+#### Using Poetry
+
+```bash
+poetry add wavy-totem-lib
+```
+
+#### Using pip
+
+```bash
+pip install wavy-totem-lib
+```
+
+## Quick start
 
 ```python
 from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayer
@@ -42,10 +50,13 @@ totem: Totem = builder.build()
 totem.image.save('totem.png')  # .image is Pillow image
 ```
 
-* Generation and scaling:
+### More examples
+
+<details>
+<summary>Generation and scaling</summary>
 
 ```python
-from wavy_totem_lib import TotemBuilder, Skin, Totem, TopLayer
+from wavy_totem_lib import TotemBuilder, Skin, Totem
 
 builder = TotemBuilder(Skin('my_skin.png', slim=True))
 
@@ -57,7 +68,10 @@ scaled.save('totem.png')
 > [!NOTE]
 > To scale up, use the built-in `scale()` method instead of `resize()` from Pillow, because it may blur the image.
 
-* Asynchronous generation:
+</details>
+
+<details>
+<summary>Asynchronous generation</summary>
 
 ```python
 import asyncio
@@ -82,7 +96,10 @@ async def main():
 asyncio.run(main())
 ```
 
-* Specifying a style
+</details>
+
+<details>
+<summary>Specifying a style</summary>
 
 ```python
 from wavy_totem_lib import TotemBuilder, Skin, Totem, STTStyle
@@ -97,6 +114,8 @@ totem.image.save('totem.png')
 > The `generate()` method accepts **kwargs, which will be passed on to the style class. None of the built-in styles
 > support them.
 
+</details>
+
 ## Styles
 
 > [!NOTE]
@@ -104,13 +123,12 @@ totem.image.save('totem.png')
 
 ### Wavy
 
-Created by @wavy-cat.
 Class name: `WavyStyle`.
 This is the default style in TotemBuilder.
 
-| Basil                                                                                          | Sylphiette                                                                                          | PWGood                                                                                          |
-|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/basil_wavy.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/sylphiette_wavy.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/pwgood_wavy.png) |
+| Notch (wide)                           | WavyCat (slim)                           | CyCeKu (wide)                           |
+|----------------------------------------|------------------------------------------|-----------------------------------------|
+| ![Skin](.github/assets/notch_wavy.png) | ![Skin](.github/assets/wavycat_wavy.png) | ![Skin](.github/assets/cyceku_wavy.png) |
 
 ```python
 from wavy_totem_lib import TotemBuilder, WavyStyle
@@ -121,13 +139,12 @@ TotemBuilder(style=WavyStyle)
 
 ### STT
 
-Created by @UnFamousSoul.
-The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/STT) repository.
 Class name: `STTStyle`.
+The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/STT) repository.
 
-| Basil                                                                                         | Sylphiette                                                                                         | PWGood                                                                                         |
-|-----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/basil_stt.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/sylphiette_stt.png) | ![Image](https://raw.githubusercontent.com/wavy-cat/wavy-totem-lib/main/assets/pwgood_stt.png) |
+| Notch (wide)                          | WavyCat (slim)                          | CyCeKu (wide)                          |
+|---------------------------------------|-----------------------------------------|----------------------------------------|
+| ![Skin](.github/assets/notch_stt.png) | ![Skin](.github/assets/wavycat_stt.png) | ![Skin](.github/assets/cyceku_stt.png) |
 
 ```python
 from wavy_totem_lib import TotemBuilder, STTStyle
