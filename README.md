@@ -65,7 +65,6 @@ scaled = totem.scale(factor=8)  # Scaling from 16×16 to 128×128
 scaled.save('totem.png')
 ```
 
-> [!NOTE]
 > To scale up, use the built-in `scale()` method instead of `resize()` from Pillow, because it may blur the image.
 
 </details>
@@ -110,7 +109,6 @@ totem: Totem = builder.build()
 totem.image.save('totem.png')
 ```
 
-> [!NOTE]
 > The `generate()` method accepts **kwargs, which will be passed on to the style class. None of the built-in styles
 > support them.
 
@@ -126,9 +124,9 @@ totem.image.save('totem.png')
 Class name: `WavyStyle`.
 This is the default style in TotemBuilder.
 
-| Notch (wide)                           | WavyCat (slim)                           | CyCeKu (wide)                           |
-|----------------------------------------|------------------------------------------|-----------------------------------------|
-| ![Skin](.github/assets/notch_wavy.png) | ![Skin](.github/assets/wavycat_wavy.png) | ![Skin](.github/assets/cyceku_wavy.png) |
+| [Notch](https://namemc.com/profile/Notch.1) (wide) | [WavyCat](https://namemc.com/profile/_WavyCat_.1) (slim) | [CyCeKu](https://namemc.com/profile/CyCeKu.1) (wide) |
+|----------------------------------------------------|----------------------------------------------------------|------------------------------------------------------|
+| ![Skin](.github/assets/notch_wavy.png)             | ![Skin](.github/assets/wavycat_wavy.png)                 | ![Skin](.github/assets/cyceku_wavy.png)              |
 
 ```python
 from wavy_totem_lib import TotemBuilder, WavyStyle
@@ -142,9 +140,9 @@ TotemBuilder(style=WavyStyle)
 Class name: `STTStyle`.
 The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/STT) repository.
 
-| Notch (wide)                          | WavyCat (slim)                          | CyCeKu (wide)                          |
-|---------------------------------------|-----------------------------------------|----------------------------------------|
-| ![Skin](.github/assets/notch_stt.png) | ![Skin](.github/assets/wavycat_stt.png) | ![Skin](.github/assets/cyceku_stt.png) |
+| [Notch](https://namemc.com/profile/Notch.1) (wide) | [WavyCat](https://namemc.com/profile/_WavyCat_.1) (slim) | [CyCeKu](https://namemc.com/profile/CyCeKu.1) (wide) |
+|----------------------------------------------------|----------------------------------------------------------|------------------------------------------------------|
+| ![Skin](.github/assets/notch_stt.png)              | ![Skin](.github/assets/wavycat_stt.png)                  | ![Skin](.github/assets/cyceku_stt.png)               |
 
 ```python
 from wavy_totem_lib import TotemBuilder, STTStyle
