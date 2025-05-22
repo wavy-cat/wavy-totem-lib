@@ -6,12 +6,16 @@ on:
       - main
     paths-ignore:
       - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
   pull_request:
     types:
       - opened
       - synchronize
     paths-ignore:
       - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
 
 jobs:
   lint:
