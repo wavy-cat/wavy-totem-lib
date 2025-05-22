@@ -1,0 +1,72 @@
+---
+sidebar_position: 2
+---
+
+# Getting Started
+
+This guide will help you get started with TotemLib, from installation to creating your first totem.
+
+## Installation
+
+TotemLib can be installed using various package managers:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="uv" label="Using uv" default>
+    ```bash
+    uv add wavy-totem-lib
+    ```
+  </TabItem>
+  <TabItem value="poetry" label="Using Poetry">
+    ```bash
+    poetry add wavy-totem-lib
+    ```
+  </TabItem>
+  <TabItem value="pip" label="Using pip">
+    ```bash
+    pip install wavy-totem-lib
+    ```
+  </TabItem>
+</Tabs>
+
+## Basic Usage
+
+Here's a simple example to create a totem from a Minecraft skin:
+
+```python
+from wavy_totem_lib import TotemBuilder, Skin
+
+# Create a builder with your skin file
+builder = TotemBuilder(
+    Skin('my_skin.png'),
+    round_head=True  # Optional: round the head corners
+)
+
+# Build the totem
+totem = builder.build()
+
+# Save the totem image
+totem.image.save('my_totem.png')
+```
+
+This will generate a totem using the default WavyStyle and save it as 'my_totem.png'.
+
+## Understanding the Process
+
+The process of creating a totem involves three main steps:
+
+1. **Loading the skin**: The `Skin` class loads a Minecraft skin file and provides access to its different parts.
+2. **Building the totem**: The `TotemBuilder` class takes the skin and applies a style to create a totem.
+3. **Saving or using the result**: The resulting `Totem` object contains the totem image, which can be saved or further processed.
+
+## Next Steps
+
+Now that you have a basic understanding of how to use wavy-totem-lib, you can:
+
+- Explore the [Examples](./examples.md) section to see more advanced usage patterns
+- Learn about the [Skin](./concepts/skin.md) class to understand how Minecraft skins are handled
+- Discover different [Styles](./concepts/style.md) to customize your totems
+- Understand the [TotemBuilder](./concepts/builder.md) to see all available options
+- Learn about the [Totem](./concepts/totem.md) class to see what you can do with the generated totems
