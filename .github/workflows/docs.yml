@@ -23,6 +23,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: cd docs
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
