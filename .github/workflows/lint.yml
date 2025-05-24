@@ -8,14 +8,15 @@ on:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
+      - 'docs/**'
   pull_request:
-    types:
-      - opened
-      - synchronize
+    branches: 
+      - main
     paths-ignore:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
+      - 'docs/**'
 
 jobs:
   lint:
