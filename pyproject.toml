@@ -23,4 +23,4 @@ build-backend = "poetry.core.masonry.api"
 "__init__.py" = ["F401"]
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"

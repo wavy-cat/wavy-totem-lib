@@ -8,33 +8,60 @@ on:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
-      - 'docs/**'
+      - 'docs'
   pull_request:
-    branches: 
-      - main
     paths-ignore:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
-      - 'docs/**'
+      - 'docs'
 
 jobs:
   lint:
+    name: Ruff lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
+
       - uses: actions/cache@v4
         id: cache
         with:
           path: ${{ env.pythonLocation }}
           key: ${{ runner.os }}-python-${{ env.pythonLocation }}-lint
+
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: pip install Pillow ruff
+
       - name: Lint
         run: |
           ruff check .
+
+  inspectCode:
+    name: Inspect code
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+    steps:
+      - name: Maximize Build Space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          large-packages: false
+
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Qodana - Code Inspection
+        uses: JetBrains/qodana-action@v2025.1
+        with:
+          cache-default-branch-only: true
