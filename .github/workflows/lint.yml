@@ -8,13 +8,13 @@ on:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
-      - 'docs'
+      - 'docs/**'
   pull_request:
     paths-ignore:
       - 'README.md'
       - '.gitignore'
       - 'LICENSE'
-      - 'docs'
+      - 'docs/**'
 
 jobs:
   lint:
