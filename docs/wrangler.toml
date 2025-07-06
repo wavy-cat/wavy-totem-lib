@@ -2,4 +2,4 @@ name = "totemlib-docs"
 compatibility_date = "2025-05-05"
 
 [assets]
-directory = "./dist"
+directory = "./build"
