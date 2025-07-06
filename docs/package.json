@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "wrangler": "wrangler",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
@@ -27,7 +28,8 @@
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
     "@docusaurus/types": "3.7.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "wrangler": "^4.23.0"
   },
   "browserslist": {
     "production": [
