@@ -36,7 +36,7 @@ class Skin:
 
         if self.image.height == 32:
             return False
-        return False if bool(self.image.getpixel((46, 52))[3]) else True
+        return not bool(self.image.getpixel((46, 52))[3])
 
     @property
     def right_leg(self) -> Dict[str, Image.Image]:
