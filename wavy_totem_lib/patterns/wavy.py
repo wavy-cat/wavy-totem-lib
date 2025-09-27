@@ -1,19 +1,16 @@
-#                  Copyright WavyCat 2024.
-#  Distributed under the Boost Software License, Version 1.0.
-#         (See accompanying file LICENSE or copy at
-#           https://www.boost.org/LICENSE_1_0.txt)
-
 from PIL import Image
 
-from .abstract import AbstractStyle
-from ..options import TopLayer
+from .abstract import Abstract
+from ..layers import TopLayer
 from ..skin import Skin
 
 
-class WavyStyle(AbstractStyle):
+class Wavy(Abstract):
     """
-    The default style, which has existed since the first versions.
-    Created by WavyCat.
+    The default pattern, which has existed since the first versions.
+    Created by WavyCat (https://github.com/UnFamousSoul).
+
+    See examples at https://totemlib.wavycat.ru/concepts/pattern/#wavy
     """
 
     def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):

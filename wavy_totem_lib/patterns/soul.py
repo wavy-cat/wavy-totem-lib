@@ -1,18 +1,15 @@
-#                  Copyright WavyCat 2024.
-#  Distributed under the Boost Software License, Version 1.0.
-#         (See accompanying file LICENSE or copy at
-#           https://www.boost.org/LICENSE_1_0.txt)
-
 from PIL import Image, ImageOps
 
-from .abstract import AbstractStyle
+from .abstract import Abstract
 from ..skin import Skin
-from ..options import TopLayer
+from ..layers import TopLayer
 
 
-class STTStyle(AbstractStyle):
+class STT(Abstract):
     """
-    Style taken from the UnFamousSoul/STT repository (https://github.com/UnFamousSoul/STT)
+    Pattern by UnFamousSoul (https://github.com/UnFamousSoul).
+
+    See examples at https://totemlib.wavycat.ru/concepts/pattern/#stt
     """
 
     def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):

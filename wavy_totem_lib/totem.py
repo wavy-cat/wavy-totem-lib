@@ -1,15 +1,10 @@
-#                  Copyright WavyCat 2024.
-#  Distributed under the Boost Software License, Version 1.0.
-#         (See accompanying file LICENSE or copy at
-#           https://www.boost.org/LICENSE_1_0.txt)
-
 from typing import Type
 
 from PIL import Image
 
-from .options import TopLayer
+from .layers import TopLayer
 from .exceptions import SmallScale
-from .styles.abstract import AbstractStyle
+from .patterns.abstract import Abstract
 
 
 class Totem:
@@ -18,16 +13,16 @@ class Totem:
     Usually this class get after the work of a style or builder.
 
     :param image: An Image object from PIL.
-    :param style: The style used to create the totem.
+    :param pattern: The pattern used to create the totem.
     :param slim: Determines whether the totem is slim.
     :param top_layers: List of included second layers.
     :param rounded_head: Determines whether the head is rounded or not.
     """
-    def __init__(self, image: Image.Image, style: Type[AbstractStyle], slim: bool, top_layers: list[TopLayer],
+    def __init__(self, image: Image.Image, pattern: Type[Abstract], slim: bool, top_layers: list[TopLayer],
                  rounded_head: bool):
         self.image = image
         self.slim = slim
-        self.style = style
+        self.style = pattern
         self.rounded_head = rounded_head
         self.top_layers = top_layers
 

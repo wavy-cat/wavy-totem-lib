@@ -17,7 +17,7 @@ Python library to generate totems of undying for Minecraft.
 * Lossless scaling image size
 * Asynchrony support
 * Supports PyPy
-* Supports different styles
+* Supports different patterns (styles)
 
 ## Installing
 
@@ -102,46 +102,46 @@ asyncio.run(main())
 </details>
 
 <details>
-<summary>Specifying a style</summary>
+<summary>Specifying a pattern</summary>
 
 ```python
-from wavy_totem_lib import TotemBuilder, Skin, Totem, STTStyle
+from wavy_totem_lib import TotemBuilder, Skin, Totem
+from wavy_totem_lib.patterns import STT
 
-# WavyStyle (default), STTStyle available built-in
-builder = TotemBuilder(Skin('my_skin.png'), style=STTStyle)
+# Wavy is default, STT available built-in
+builder = TotemBuilder(Skin('my_skin.png'), pattern=STT)
 totem: Totem = builder.build()
 totem.image.save('totem.png')
 ```
 
-> The `generate()` method accepts **kwargs, which will be passed on to the style class. None of the built-in styles
+> The `generate()` method accepts **kwargs, which will be passed on to the pattern class. None of the built-in patterns
 > support them.
 
 </details>
 
-## Styles
+## Patterns
 
 > [!NOTE]
-> You can create your own styles by inheriting the `AbstractStyle` class and implementing the `image` property.
+> You can create your own pattern by creating subclass from `Abstract` class and implementing the `image` method.
 
 ### Wavy
 
-Class name: `WavyStyle`.
-This is the default style in TotemBuilder.
+This is the default pattern in TotemBuilder.
 
 | [Notch](https://namemc.com/profile/Notch.1) (wide) | [WavyCat](https://namemc.com/profile/_WavyCat_.1) (slim) | [CyCeKu](https://namemc.com/profile/CyCeKu.1) (wide) |
 |----------------------------------------------------|----------------------------------------------------------|------------------------------------------------------|
 | ![Skin](.github/assets/notch_wavy.png)             | ![Skin](.github/assets/wavycat_wavy.png)                 | ![Skin](.github/assets/cyceku_wavy.png)              |
 
 ```python
-from wavy_totem_lib import TotemBuilder, WavyStyle
+from wavy_totem_lib import TotemBuilder
+from wavy_totem_lib.patterns import Wavy
 
-TotemBuilder(style=WavyStyle)
-# You can also not specify style at all, because WavyStyle – default style.
+TotemBuilder(pattern=Wavy)
+# You can also not specify the pattern at all, because WavyStyle – default pattern.
 ```
 
 ### STT
 
-Class name: `STTStyle`.
 The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/STT) repository.
 
 | [Notch](https://namemc.com/profile/Notch.1) (wide) | [WavyCat](https://namemc.com/profile/_WavyCat_.1) (slim) | [CyCeKu](https://namemc.com/profile/CyCeKu.1) (wide) |
@@ -149,7 +149,8 @@ The code is taken from the [UnFamousSoul/STT](https://github.com/UnFamousSoul/ST
 | ![Skin](.github/assets/notch_stt.png)              | ![Skin](.github/assets/wavycat_stt.png)                  | ![Skin](.github/assets/cyceku_stt.png)               |
 
 ```python
-from wavy_totem_lib import TotemBuilder, STTStyle
+from wavy_totem_lib import TotemBuilder
+from wavy_totem_lib.patterns import STT
 
-TotemBuilder(style=STTStyle)
+TotemBuilder(pattern=STT)
 ```
