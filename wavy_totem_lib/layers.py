@@ -1,8 +1,3 @@
-#                  Copyright WavyCat 2024.
-#  Distributed under the Boost Software License, Version 1.0.
-#         (See accompanying file LICENSE or copy at
-#           https://www.boost.org/LICENSE_1_0.txt)
-
 from enum import Enum
 
 
@@ -13,9 +8,9 @@ class TopLayer(Enum):
     """
 
     HEAD = 2 << 2
-    TORSO = 2 << 4
-    HANDS = 2 << 6
-    LEGS = 2 << 8
+    TORSO = 2 << 3
+    HANDS = 2 << 4
+    LEGS = 2 << 5
 
 
 ALL_TOP_LAYERS = [TopLayer.HEAD, TopLayer.TORSO, TopLayer.HANDS, TopLayer.LEGS]
