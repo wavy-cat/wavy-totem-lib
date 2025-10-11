@@ -22,7 +22,7 @@ class Totem:
                  rounded_head: bool):
         self.image = image
         self.slim = slim
-        self.style = pattern
+        self.pattern = pattern
         self.rounded_head = rounded_head
         self.top_layers = top_layers
 
