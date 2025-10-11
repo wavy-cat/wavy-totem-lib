@@ -21,7 +21,8 @@ jobs:
     name: Ruff lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -40,28 +41,3 @@ jobs:
       - name: Lint
         run: |
           ruff check .
-
-  inspectCode:
-    name: Inspect code
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Maximize Build Space
-        uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: false
-          large-packages: false
-
-      - name: Fetch Sources
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-
-      - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2025.1
-        with:
-          cache-default-branch-only: true
