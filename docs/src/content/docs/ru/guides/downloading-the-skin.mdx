@@ -1,0 +1,95 @@
+---
+title: Где получить скин?
+description: Изучите как получить скин игрока из разных источников
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
+
+Это руководство поможет вам получить файл вашего скина или скина другого игрока.
+
+# Что такое скин?
+
+В данном случае, под "скином" мы подразумеваем изображение, обычно формата PNG, с разрешением 64x64 для новых версий и 64x32 для старых.
+
+# В браузере
+
+## NameMC
+
+Наилегчайший способ получить скин является использование сервиса [NameMC](https://ru.namemc.com/).
+Используя поиск на сайте, вы можете найти нужного игрока и скачать его скин.
+
+# Используя API
+
+## Mojang
+
+Используйте официальное API от Mojang, в случае, если вам необходимо получить скин напрямую в коде.
+Документация API описана на [Minecraft.wiki](https://minecraft.wiki/w/Mojang_API)&#160;<Badge text="англ" variant="note" size="small" />.
+
+Данные примеры помогут вам с получением скина:
+
+<Tabs syncKey="code">
+<TabItem label="requests">
+
+```python
+from base64 import b64decode
+import json
+import requests  # нужно установить из pypi
+
+player_nickname = "jeb_"
+filename = "my_skin.png"
+player_uuid = requests.get(f"https://api.minecraftservices.com/minecraft/profile/lookup/name/{player_nickname}").json()["id"]
+
+textures = json.loads(b64decode(requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{player_uuid}").json()["properties"][0]["value"]))["textures"]
+skin_url = textures["SKIN"]["url"]
+is_slim = textures["SKIN"]["metadata"]["model"] == "slim" if "metadata" in textures["SKIN"] else False
+
+skin = requests.get(skin_url)
+
+with open(filename, mode='wb') as file:
+    file.write(skin.content)
+
+print(f"Skin downloaded to {filename}")
+print(f"Is slim model: {is_slim}")
+```
+
+</TabItem>
+<TabItem label="aiohttp">
+
+```python
+import asyncio
+from base64 import b64decode
+import json
+import aiohttp  # нужно установить из pypi
+import aiofiles  # нужно установить из pypi
+
+player_nickname = "jeb_"
+filename = "my_skin.png"
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f"https://api.minecraftservices.com/minecraft/profile/lookup/name/{player_nickname}") as resp:
+            player_data = await resp.json()
+            player_uuid = player_data["id"]
+        
+        async with session.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{player_uuid}") as resp:
+            profile_data = await resp.json()
+            property_value = profile_data["properties"][0]["value"]
+            textures = json.loads(b64decode(property_value))["textures"]
+
+        skin_url = textures["SKIN"]["url"]
+        is_slim = textures["SKIN"].get("metadata", {}).get("model") == "slim"
+        
+        async with session.get(skin_url) as resp:
+            skin_bytes = await resp.read()
+            async with aiofiles.open(filename, mode='wb') as file:
+                await file.write(skin_bytes)
+        
+        print(f"Skin downloaded to {filename}")
+        print(f"Is slim model: {is_slim}")
+
+asyncio.run(main())
+```
+
+</TabItem>
+</Tabs>

@@ -1,0 +1,77 @@
+---
+title: Введение
+description: Изучите как начать работу с TotemLib.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Это руководство поможет вам начать работу с библиотекой TotemLib, от установки до создания вашего первого тотема.
+
+## Быстрый старт
+
+### Установка
+
+Добавьте библиотеку в свой проект, используя следующую команду в терминале:
+
+<Tabs syncKey="pkg">
+<TabItem label="uv">
+
+```sh
+uv add wavy-totem-lib
+```
+
+</TabItem>
+<TabItem label="poetry">
+
+```sh
+poetry add wavy-totem-lib
+```
+
+</TabItem>
+<TabItem label="pip">
+
+```sh
+pip install wavy-totem-lib
+```
+
+</TabItem>
+</Tabs>
+
+### Написание простой программы
+
+Для того чтобы убедиться что библиотека установлена и работает корректно, а также для небольшой демонстрации работы, напишите простую программу:
+
+```python
+from wavy_totem_lib import TotemBuilder, Skin
+
+# Создайте экземпляр класса Skin с файлом вашего скина
+skin = Skin('my_skin.png')
+
+# Создайте билдер тотема на основе экземпляра Skin
+builder = TotemBuilder(
+    skin,
+    round_head=True  # Опционально: закруглите края головы
+)
+
+# Соберите тотем
+totem = builder.build()
+
+# Сохраните изображение тотема в файле my_totem.png
+totem.image.save('my_totem.png')
+```
+
+Данный код загрузит [ваш скин](/ru/guides/downloading-the-skin) из файла `my_skin.png`, сгенерирует тотем и сохранит его в файле `my_totem.png`.
+
+Если вы смогли увидеть ваш тотем, значит библиотека исправно работает, продолжайте изучать документацию дальше!
+
+## Что дальше?
+
+* Посмотрите [где можно получать скины](/ru/guides/downloading-the-skin);
+* Изучите [генерацию тотема детальнее](/ru/guides/generating-a-totem);
+* Изучите концепты - начните со [Скина](/ru/concepts/skin/).
+
+## Сообщение о проблемах
+
+Если вы испытываете какую-либо проблему с библиотекой, нашли баг или уязвимость, просмотрите [Issues](https://github.com/wavy-cat/wavy-totem-lib/issues) в репозитории на GitHub.
+Возможно, там будет решение проблемы. Если его нет, то не стесняйтесь открыть [новую проблему](https://github.com/wavy-cat/wavy-totem-lib/issues/new/choose)!
+Также Issues это прекрасное место для [предложения](https://github.com/wavy-cat/wavy-totem-lib/issues/new?template=feature_request.yml) новых идей.

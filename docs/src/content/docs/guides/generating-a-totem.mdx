@@ -1,0 +1,113 @@
+---
+title: How to Generate a Totem?
+description: Learn how to generate totems using the builder
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Several key components are used for totem generation:
+
+1. Your skin, as an instance of the [Skin](/concepts/skin) class;
+2. An algorithm that will draw the totem, i.e., a [Pattern](/concepts/pattern/). By default, the [Wavy](/concepts/pattern#wavy) pattern is used;
+3. A [Builder](/concepts/builder), which combines the two previous components and returns a [Totem](/concepts/totem).
+
+## Step-by-Step Guide
+
+<Steps>
+
+1. Create an instance of the Skin class based on your skin:
+
+    ```py
+    from wavy_totem_lib import Skin
+
+    skin = Skin(
+        # Specify the file path for the skin.
+        # You can also pass bytes directly.
+        'my_skin.png',
+
+        # Explicitly specify that the skin uses the slim model.
+        slim=True
+    )
+    ```
+
+2. Create a totem builder:
+
+    ```py
+    from wavy_totem_lib import TotemBuilder, WavyStyle, ALL_TOP_LAYERS
+
+    builder = TotemBuilder(
+        # Pass the skin instance you created earlier.
+        skin,
+    )
+    ```
+
+    The builder accepts several optional arguments that affect the final totem texture. Read more on the [Builder](/concepts/builder) page in the Concepts section.
+
+3. Use the `.build()` method to create the totem:
+
+    ```py
+    totem = builder.build()
+    ```
+
+    The method accepts additional **kwargs arguments that are passed to the pattern.
+    You can pass them if the pattern being used is capable of processing them.
+    All built-in library patterns do not use additional arguments.
+
+    In an asynchronous function, you can use the asynchronous method `.build_async()`:
+
+    ```py
+    totem = await builder.build_async()
+    ```
+
+</Steps>
+
+After these steps, you will receive an instance of the [Totem](/concepts/totem) class, which contains a PIL.Image object in its `image` property.
+You can work with it as with a regular Pillow image. For example, save it:
+
+```py
+totem.image.save('my_totem.png')
+```
+
+## Totem Scaling
+
+Scaling involves converting one pixel into multiple pixels, forming a square of identically colored pixels N times larger than the original.
+This manipulation helps prevent blurring effects in browsers, messengers, and other applications where images are viewed.
+
+Use the `.scale()` method on the Totem type for scaling.
+
+```py
+n = 2  # Scaling factor. In this case, scaling up by 2 times.
+scaled_img = totem.scale(factor=n)  # factor is a keyword argument.
+```
+
+The method returns a PIL.Image type, so you can work with it as with a regular Pillow image, just like you worked with the totem's `image` property.
+
+## Selecting the Top Layer
+
+The `TopLayer` Enum type is used to designate the parts of the top (aka second) layer:
+
+* `HEAD` — head;
+* `TORSO` — torso;
+* `HANDS` — hands;
+* `LEGS` — legs.
+
+These values are passed as a list to the builder and to the pattern.
+For convenience, the library provides the constant `ALL_TOP_LAYERS`, which contains all body parts.
+
+### Examples
+
+```py
+from wavy_totem_lib import TotemBuilder, ALL_TOP_LAYERS, TopLayer
+
+builder = TotemBuilder(
+    skin,
+    top_layers=[TopLayer.HEAD, TopLayer.HANDS]  # Only the head and hands of the top layer will be rendered.
+)
+
+builder = TotemBuilder(
+    skin,
+    top_layers=ALL_TOP_LAYERS  # All body parts of the top layer will be rendered.
+    # ALL_TOP_LAYERS is already the default value for the top_layers argument,
+    # so you can omit it entirely.
+)
+```

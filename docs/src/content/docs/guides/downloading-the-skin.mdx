@@ -1,0 +1,94 @@
+---
+title: How to Obtain a Skin?
+description: Learn how to retrieve a player skin from various sources
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide will help you obtain the skin file for yourself or another player.
+
+# What is a Skin?
+
+In this context, a "skin" refers to an image, typically in PNG format, with a resolution of 64x64 for newer versions and 64x32 for older ones.
+
+# In the Browser
+
+## NameMC
+
+The easiest way to obtain a skin is by using the [NameMC](https://namemc.com/) service.
+Using the site's search, you can find the desired player and download their skin.
+
+# Using APIs
+
+## Mojang
+
+Use the official Mojang API if you need to retrieve a skin directly in your code.
+The API documentation is described on [Minecraft.wiki](https://minecraft.wiki/w/Mojang_API)
+
+The following examples will assist you in obtaining the skin:
+
+<Tabs syncKey="code">
+<TabItem label="requests">
+
+```python
+from base64 import b64decode
+import json
+import requests  # requires installation from pypi
+
+player_nickname = "jeb_"
+filename = "my_skin.png"
+player_uuid = requests.get(f"https://api.minecraftservices.com/minecraft/profile/lookup/name/{player_nickname}").json()["id"]
+
+textures = json.loads(b64decode(requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{player_uuid}").json()["properties"][0]["value"]))["textures"]
+skin_url = textures["SKIN"]["url"]
+is_slim = textures["SKIN"]["metadata"]["model"] == "slim" if "metadata" in textures["SKIN"] else False
+
+skin = requests.get(skin_url)
+
+with open(filename, mode='wb') as file:
+    file.write(skin.content)
+
+print(f"Skin downloaded to {filename}")
+print(f"Is slim model: {is_slim}")
+```
+
+</TabItem>
+<TabItem label="aiohttp">
+
+```python
+import asyncio
+from base64 import b64decode
+import json
+import aiohttp  # requires installation from pypi
+import aiofiles  # requires installation from pypi
+
+player_nickname = "jeb_"
+filename = "my_skin.png"
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f"https://api.minecraftservices.com/minecraft/profile/lookup/name/{player_nickname}") as resp:
+            player_data = await resp.json()
+            player_uuid = player_data["id"]
+
+        async with session.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{player_uuid}") as resp:
+            profile_data = await resp.json()
+            property_value = profile_data["properties"][0]["value"]
+            textures = json.loads(b64decode(property_value))["textures"]
+
+        skin_url = textures["SKIN"]["url"]
+        is_slim = textures["SKIN"].get("metadata", {}).get("model") == "slim"
+
+        async with session.get(skin_url) as resp:
+            skin_bytes = await resp.read()
+            async with aiofiles.open(filename, mode='wb') as file:
+                await file.write(skin_bytes)
+
+        print(f"Skin downloaded to {filename}")
+        print(f"Is slim model: {is_slim}")
+
+asyncio.run(main())
+```
+
+</TabItem>
+</Tabs>

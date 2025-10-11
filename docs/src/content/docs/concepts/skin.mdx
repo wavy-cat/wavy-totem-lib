@@ -1,0 +1,137 @@
+---
+title: Skin
+description: Learn about the Skin concept
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Skin is a pattern-useful type that represents a raw skin image as separate body parts accessible via properties, and also provides skin metadata.
+
+## Initialization
+
+```py
+from wavy_totem_lib import Skin
+
+skin = Skin(
+    filepath='my_skin.png',
+    slim=True
+)
+```
+
+Skin accepts 2 arguments:
+
+* `filepath`: `Union[str, bytes, Path, IO[bytes]]` — the skin image as bytes or a path to it. Passed unchanged to `PIL.Image.open()`.
+* `slim`: `bool` (Optional. Defaults to EllipsisType) — a boolean value indicating whether the skin is slim. If EllipsisType (aka `...`) is passed, the type will attempt to automatically determine the skin size.
+
+## For Pattern Creators
+
+<Aside>
+    The following information will be useless for the average user but very useful for people creating their own pattern, or modifying someone else's.
+</Aside>
+
+### Metadata Properties
+
+* `image`: `PIL.Image` — contains the entire image. Forces the use of the RGBA color profile.
+* `version`: `str` — the skin version. Can have the value `new` for 64x64 skins that support the second layer, and `old` for 64x32 skins that do **not** support it.
+* `available_second`: `bool` — indicates whether the skin supports the second layer. The value depends on `version`.
+* `is_slim`: `bool` — indicates whether the skin is slim. This value can be forced during initialization.
+
+### Properties Containing Body Parts
+
+All these "properties" are actually methods with the `@property` decorator to save memory and CPU time.
+
+* `right_leg` — the right leg.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value.
+
+* `right_leg_front` — the front of the right leg.
+
+  Returns a PIL.Image. Equivalent to `right_leg()['front']`, but uses fewer resources because it doesn't calculate all sides.
+
+* `right_leg_second` — the second layer of the right leg.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`.
+
+* `right_leg_second_front` — the front of the second layer of the right leg.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Equivalent to `right_leg_second()['front']` if the second layer is available, but uses fewer resources.
+
+* `left_leg` — the left leg.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value. For old skins, returns the same as `right_leg`.
+
+* `left_leg_front` — the front of the left leg.
+
+  Returns a PIL.Image. For old skins, returns the same as `right_leg_front`. Equivalent to `left_leg()['front']`, but uses fewer resources.
+
+* `left_leg_second` — the second layer of the left leg.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`.
+
+* `left_leg_second_front` — the front of the second layer of the left leg.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Equivalent to `left_leg_second()['front']` if the second layer is available, but uses fewer resources.
+
+* `right_hand` — the right hand.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value. Accounts for the skin type (slim/wide).
+
+* `right_hand_front` — the front of the right hand.
+
+  Returns a PIL.Image. Accounts for the skin type (slim/wide). Equivalent to `right_hand()['front']`, but uses fewer resources.
+
+* `right_hand_second` — the second layer of the right hand.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`. Accounts for the skin type (slim/wide).
+
+* `right_hand_second_front` — the front of the second layer of the right hand.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Accounts for the skin type (slim/wide). Equivalent to `right_hand_second()['front']` if the second layer is available, but uses fewer resources.
+
+* `left_hand` — the left hand.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value. For old skins, returns the same as `right_hand`. Accounts for the skin type (slim/wide).
+
+* `left_hand_front` — the front of the left hand.
+
+  Returns a PIL.Image. For old skins, returns the same as `right_hand_front`. Accounts for the skin type (slim/wide). Equivalent to `left_hand()['front']`, but uses fewer resources.
+
+* `left_hand_second` — the second layer of the left hand.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`. Accounts for the skin type (slim/wide).
+
+* `left_hand_second_front` — the front of the second layer of the left hand.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Accounts for the skin type (slim/wide). Equivalent to `left_hand_second()['front']` if the second layer is available, but uses fewer resources.
+
+* `body` — the body.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value.
+
+* `body_front` — the front of the body.
+
+  Returns a PIL.Image. Equivalent to `body()['front']`, but uses fewer resources.
+
+* `body_second` — the second layer of the body.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`.
+
+* `body_second_front` — the front of the second layer of the body.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Equivalent to `body_second()['front']` if the second layer is available, but uses fewer resources.
+
+* `head` — the head.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value.
+
+* `head_front` — the front of the head.
+
+  Returns a PIL.Image. Equivalent to `head()['front']`, but uses fewer resources.
+
+* `head_second` — the second layer of the head.
+
+  Returns a dictionary with keys `front`, `back`, `left`, `right`, `top`, `bottom` and a PIL.Image as the value, if the second layer is available. Otherwise returns `None`.
+
+* `head_second_front` — the front of the second layer of the head.
+
+  Returns a PIL.Image if the second layer is available, otherwise `None`. Equivalent to `head_second()['front']` if the second layer is available, but uses fewer resources.

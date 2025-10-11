@@ -1,0 +1,77 @@
+---
+title: Getting Started
+description: Learn how to get started with TotemLib.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide will help you get started with the TotemLib library, from installation to creating your first totem.
+
+## Quick Start
+
+### Installation
+
+Add the library to your project using the following terminal command:
+
+<Tabs syncKey="pkg">
+<TabItem label="uv">
+
+```sh
+uv add wavy-totem-lib
+```
+
+</TabItem>
+<TabItem label="poetry">
+
+```sh
+poetry add wavy-totem-lib
+```
+
+</TabItem>
+<TabItem label="pip">
+
+```sh
+pip install wavy-totem-lib
+```
+
+</TabItem>
+</Tabs>
+
+### Writing a Simple Program
+
+To verify the library is installed and working correctly, and for a brief demonstration, write a simple program:
+
+```python
+from wavy_totem_lib import TotemBuilder, Skin
+
+# Create a Skin instance with your skin file
+skin = Skin('my_skin.png')
+
+# Create a totem builder based on the Skin instance
+builder = TotemBuilder(
+    skin,
+    round_head=True  # Optional: round the edges of the head
+)
+
+# Build the totem
+totem = builder.build()
+
+# Save the totem image to my_totem.png
+totem.image.save('my_totem.png')
+```
+
+This code will load [your skin](/guides/downloading-the-skin) from the `my_skin.png` file, generate a totem, and save it to `my_totem.png`.
+
+If you can see your totem, the library is working correctly. Continue exploring the documentation!
+
+## What's Next?
+
+* Learn [where to get skins](/guides/downloading-the-skin);
+* Explore [totem generation in more detail](/guides/generating-a-totem);
+* Study the concepts - start with [Skin](/concepts/skin/).
+
+## Reporting Issues
+
+If you encounter any problems with the library, find a bug or a vulnerability, check the [Issues](https://github.com/wavy-cat/wavy-totem-lib/issues) in the GitHub repository.
+A solution might already be available. If not, feel free to open a [new issue](https://github.com/wavy-cat/wavy-totem-lib/issues/new/choose)!
+Issues are also a great place for [suggesting](https://github.com/wavy-cat/wavy-totem-lib/issues/new?template=feature_request.yml) new ideas.
