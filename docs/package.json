@@ -16,5 +16,8 @@
     "sharp": "^0.34.4",
     "starlight-image-zoom": "^0.13.1",
     "starlight-theme-rapide": "^0.5.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.42.2"
   }
 }
