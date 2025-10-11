@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "deploy": "wrangler deploy",
+    "astro": "astro",
+    "wrangler": "wrangler"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.35.3",
