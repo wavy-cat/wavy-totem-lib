@@ -1,5 +1,6 @@
 name = "totemlib-docs"
 compatibility_date = "2025-05-05"
+preview_urls = true
 
 [assets]
 directory = "./dist"
