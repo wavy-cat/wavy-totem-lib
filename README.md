@@ -19,6 +19,10 @@ Python library to generate totems of undying for Minecraft.
 * Supports PyPy
 * Supports different patterns (styles)
 
+## Documentation
+
+The documentation is available at https://totemlib.wavycat.me, as well as https://totemlib-docs.wavycat.workers.dev.
+
 ## Installing
 
 #### Using uv
