@@ -6,7 +6,7 @@ import starlightThemeRapide from 'starlight-theme-rapide';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://totemlib.wavycat.ru',
+    site: 'https://totemlib.wavycat.me',
     integrations: [
         starlight({
             title: 'TotemLib',
