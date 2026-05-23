@@ -1,7 +1,6 @@
 {
   "name": "docs",
-  "type": "module",
-  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -10,14 +9,18 @@
     "astro": "astro",
     "wrangler": "wrangler"
   },
-  "dependencies": {
-    "@astrojs/starlight": "^0.35.3",
-    "astro": "^5.14.4",
-    "sharp": "^0.34.4",
-    "starlight-image-zoom": "^0.13.1",
-    "starlight-theme-rapide": "^0.5.1"
-  },
   "devDependencies": {
-    "wrangler": "^4.42.2"
+    "@types/bun": "latest",
+    "wrangler": "^4.94.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.39.2",
+    "astro": "^6.3.7",
+    "sharp": "^0.34.5",
+    "starlight-image-zoom": "^0.14.2",
+    "starlight-theme-rapide": "^0.5.2"
   }
 }
