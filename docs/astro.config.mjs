@@ -113,4 +113,5 @@ export default defineConfig({
             plugins: [starlightThemeRapide(), starlightImageZoom()],
         }),
     ],
+    prefetch: false,
 });
