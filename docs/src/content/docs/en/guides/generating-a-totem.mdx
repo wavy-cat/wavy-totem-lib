@@ -7,9 +7,9 @@ import { Steps } from '@astrojs/starlight/components';
 
 Several key components are used for totem generation:
 
-1. Your skin, as an instance of the [Skin](/concepts/skin) class;
-2. An algorithm that will draw the totem, i.e., a [Pattern](/concepts/pattern/). By default, the [Wavy](/concepts/pattern#wavy) pattern is used;
-3. A [Builder](/concepts/builder), which combines the two previous components and returns a [Totem](/concepts/totem).
+1. Your skin, as an instance of the [Skin](/en/concepts/skin) class;
+2. An algorithm that will draw the totem, i.e., a [Pattern](/en/concepts/pattern/). By default, the [Wavy](/en/concepts/pattern#wavy) pattern is used;
+3. A [Builder](/en/concepts/builder), which combines the two previous components and returns a [Totem](/en/concepts/totem).
 
 ## Step-by-Step Guide
 
@@ -41,7 +41,7 @@ Several key components are used for totem generation:
     )
     ```
 
-    The builder accepts several optional arguments that affect the final totem texture. Read more on the [Builder](/concepts/builder) page in the Concepts section.
+    The builder accepts several optional arguments that affect the final totem texture. Read more on the [Builder](/en/concepts/builder) page in the Concepts section.
 
 3. Use the `.build()` method to create the totem:
 
@@ -61,7 +61,7 @@ Several key components are used for totem generation:
 
 </Steps>
 
-After these steps, you will receive an instance of the [Totem](/concepts/totem) class, which contains a PIL.Image object in its `image` property.
+After these steps, you will receive an instance of the [Totem](/en/concepts/totem) class, which contains a PIL.Image object in its `image` property.
 You can work with it as with a regular Pillow image. For example, save it:
 
 ```py

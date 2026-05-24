@@ -12,8 +12,9 @@ export default defineConfig({
         starlight({
             title: 'TotemLib',
             favicon: 'favicon.ico',
+            defaultLocale: 'en',
             locales: {
-                root: {
+                en: {
                     label: 'English',
                     lang: 'en',
                 },
@@ -31,80 +32,80 @@ export default defineConfig({
             },
             sidebar: [
                 {
-                    label: 'Первые шаги',
+                    label: 'Start Here',
                     translations: {
-                        en: 'Start Here'
+                        ru: 'Первые шаги'
                     },
                     items: [
                         {
-                            label: 'Введение',
+                            label: 'Getting Started',
                             translations: {
-                                en: 'Getting Started',
+                                ru: 'Введение',
                             },
                             slug: 'getting-started',
                         }
                     ]
                 },
                 {
-                    label: 'Руководства',
+                    label: 'Guides',
                     translations: {
-                        en: 'Guides',
+                        ru: 'Руководства',
                     },
                     items: [
                         {
-                            label: 'Где получить скин?',
+                            label: 'How to fetch a skin?',
                             translations: {
-                                en: 'How to Obtain a Skin?',
+                                ru: 'Где получить скин?',
                             },
                             slug: 'guides/downloading-the-skin'
                         },
                         {
-                            label: 'Как сгенерировать тотем?',
+                            label: 'How to generate a totem?',
                             translations: {
-                                en: 'How to Generate a Totem?',
+                                ru: 'Как сгенерировать тотем?',
                             },
                             slug: 'guides/generating-a-totem'
                         },
                         {
-                            label: 'Как написать свой паттерн?',
+                            label: 'Writing your own pattern',
                             translations: {
-                                en: 'Writing Your Own Pattern',
+                                ru: 'Написание своего паттерна',
                             },
                             slug: 'guides/writing-pattern'
                         },
                     ],
                 },
                 {
-                    label: 'Концепты',
+                    label: 'Concepts',
                     translations: {
-                        en: 'Concepts',
+                        ru: 'Концепты',
                     },
                     items: [
                         {
-                            label: 'Скин (Skin)',
+                            label: 'Skin',
                             translations: {
-                                en: 'Skin',
+                                ru: 'Скин (Skin)',
                             },
                             slug: 'concepts/skin'
                         },
                         {
-                            label: 'Паттерн (Pattern)',
+                            label: 'Pattern',
                             translations: {
-                                en: 'Pattern',
+                                ru: 'Паттерн (Pattern)',
                             },
                             slug: 'concepts/pattern'
                         },
                         {
-                            label: 'Билдер (Builder)',
+                            label: 'Builder',
                             translations: {
-                                en: 'Builder',
+                                ru: 'Билдер (Builder)',
                             },
                             slug: 'concepts/builder'
                         },
                         {
-                            label: 'Тотем (Totem)',
+                            label: 'Totem',
                             translations: {
-                                en: 'Totem',
+                                ru: 'Тотем (Totem)',
                             },
                             slug: 'concepts/totem'
                         },

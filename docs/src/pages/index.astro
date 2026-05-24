@@ -1,0 +1,15 @@
+---
+---
+
+<script>
+    const KNOWN_LANGUAGES = ['en', 'ru'];
+    let newLangWithRegion = (window.navigator.language || 'en-US').substring(0, 5);
+    let newLang = newLangWithRegion.substring(0, 2);
+    if (KNOWN_LANGUAGES.includes(newLangWithRegion)) {
+        window.location.pathname = '/' + newLangWithRegion;
+    } else if (KNOWN_LANGUAGES.includes(newLang)) {
+        window.location.pathname = '/' + newLang;
+    } else {
+        window.location.pathname = '/en';
+    }
+</script>

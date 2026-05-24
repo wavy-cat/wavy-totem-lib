@@ -15,4 +15,4 @@ Totem — a class that contains the totem image, metadata, and utility methods.
 
 ## Methods
 
-* `scale(self, *, factor: int)`: `PIL.Image` — method for simple totem scaling by duplicating 1 pixel into n^2 pixels (where n is the provided factor).
+* `scale(self, *, factor: int)`: `PIL.Image` — method for simple totem scaling by duplicating 1 pixel into `n^2` pixels (where n is the provided factor).

@@ -5,7 +5,7 @@ description: Learn how to create your own totem pattern
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 
-A pattern is a class that receives a [Skin](/concepts/skin/), a list of enabled top layers, and optional keyword arguments, then draws and returns the totem texture as a `PIL.Image.Image`.
+A pattern is a class that receives a [Skin](/en/concepts/skin/), a list of enabled top layers, and optional keyword arguments, then draws and returns the totem texture as a `PIL.Image.Image`.
 
 Custom patterns give you full control over how the final totem image is assembled: where body parts are placed, how they are resized, whether the top layer is rendered, and which additional options your pattern can accept.
 
@@ -35,14 +35,15 @@ super().__init__(skin, top_layers, **kwargs)
     def image(self) -> Image.Image:
         return self._canvas
 ```
+
 This pattern creates an empty transparent 16x16 image.
 
 ## What `Abstract` Provides
 
 When you call `super().__init__(skin, top_layers, **kwargs)`, the base class initializes several useful attributes:
 
-* `self.skin`: the [Skin](/concepts/skin/) object used as the source texture;
-* `self.top_layers`: a list of enabled [TopLayer](/guides/generating-a-totem#selecting-the-top-layer) values;
+* `self.skin`: the [Skin](/en/concepts/skin/) object used as the source texture;
+* `self.top_layers`: a list of enabled [TopLayer](/en/guides/generating-a-totem#selecting-the-top-layer) values;
 * `self.kwargs`: additional keyword arguments passed through the builder;
 * `self._canvas`: an empty 16x16 RGBA `PIL.Image` image. Your pattern should draw on this canvas.
 
