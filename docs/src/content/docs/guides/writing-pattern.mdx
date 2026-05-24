@@ -1,9 +1,305 @@
 ---
 title: Writing Your Own Pattern
+description: Learn how to create your own totem pattern
 ---
 
-import {Aside} from '@astrojs/starlight/components';
+import { Aside, Steps } from '@astrojs/starlight/components';
 
-<Aside type="caution">
-    This guide is still in development!
+A pattern is a class that receives a [Skin](/concepts/skin/), a list of enabled top layers, and optional keyword arguments, then draws and returns the totem texture as a `PIL.Image.Image`.
+
+Custom patterns give you full control over how the final totem image is assembled: where body parts are placed, how they are resized, whether the top layer is rendered, and which additional options your pattern can accept.
+
+## Basic Requirements
+
+Every custom pattern must:
+
+1. Inherit from `Abstract`;
+2. Accept `skin`, `top_layers`, and `**kwargs` in `__init__`;
+3. Call `super().__init__(skin, top_layers, **kwargs)`;
+4. Implement the `image` property;
+5. Return a `PIL.Image.Image` from `image`.
+
+A minimal pattern looks like this:
+```python
+from PIL import Image
+
+from wavy_totem_lib.patterns import Abstract
+from wavy_totem_lib import Skin, TopLayer
+
+
+class MyPattern(Abstract):
+def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+super().__init__(skin, top_layers, **kwargs)
+
+    @property
+    def image(self) -> Image.Image:
+        return self._canvas
+```
+This pattern creates an empty transparent 16x16 image.
+
+## What `Abstract` Provides
+
+When you call `super().__init__(skin, top_layers, **kwargs)`, the base class initializes several useful attributes:
+
+* `self.skin`: the [Skin](/concepts/skin/) object used as the source texture;
+* `self.top_layers`: a list of enabled [TopLayer](/guides/generating-a-totem#selecting-the-top-layer) values;
+* `self.kwargs`: additional keyword arguments passed through the builder;
+* `self._canvas`: an empty 16x16 RGBA `PIL.Image` image. Your pattern should draw on this canvas.
+
+## Step-by-Step Example
+
+The following example creates a simple pattern that places the head at the top of the totem and the body below it.
+
+<Steps>
+
+1. Import the required classes:
+
+    ```python
+    from PIL import Image
+
+    from wavy_totem_lib import Skin, TopLayer
+    from wavy_totem_lib.patterns import Abstract
+    ```
+
+2. Create a class that inherits from `Abstract`:
+
+    ```python
+    class SimplePattern(Abstract):
+        def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+            super().__init__(skin, top_layers, **kwargs)
+    ```
+
+3. Add helper methods for drawing body parts:
+
+    ```python
+    class SimplePattern(Abstract):
+        def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+            super().__init__(skin, top_layers, **kwargs)
+
+        def _add_head(self):
+            self._canvas.paste(self.skin.head_front, (4, 1))
+
+            if self.skin.available_second and TopLayer.HEAD in self.top_layers:
+                self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
+
+        def _add_body(self):
+            body = self.skin.body_front.resize((8, 7))
+            self._canvas.paste(body, (4, 9))
+
+            if self.skin.available_second and TopLayer.TORSO in self.top_layers:
+                body_second = self.skin.body_second_front.resize((8, 7))
+                self._canvas.alpha_composite(body_second, (4, 9))
+    ```
+
+4. Implement the `image` property:
+
+    ```python
+    class SimplePattern(Abstract):
+        def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+            super().__init__(skin, top_layers, **kwargs)
+
+        def _add_head(self):
+            self._canvas.paste(self.skin.head_front, (4, 1))
+
+            if self.skin.available_second and TopLayer.HEAD in self.top_layers:
+                self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
+
+        def _add_body(self):
+            body = self.skin.body_front.resize((8, 7))
+            self._canvas.paste(body, (4, 9))
+
+            if self.skin.available_second and TopLayer.TORSO in self.top_layers:
+                body_second = self.skin.body_second_front.resize((8, 7))
+                self._canvas.alpha_composite(body_second, (4, 9))
+
+        @property
+        def image(self) -> Image.Image:
+            self._add_head()
+            self._add_body()
+
+            return self._canvas
+    ```
+
+</Steps>
+
+## Full Example
+```python
+from PIL import Image
+
+from wavy_totem_lib import Skin, TopLayer
+from wavy_totem_lib.patterns import Abstract
+
+
+class SimplePattern(Abstract):
+def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+super().__init__(skin, top_layers, **kwargs)
+
+    def _add_head(self):
+        self._canvas.paste(self.skin.head_front, (4, 1))
+
+        if self.skin.available_second and TopLayer.HEAD in self.top_layers:
+            self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
+
+    def _add_body(self):
+        body = self.skin.body_front.resize((8, 7))
+        self._canvas.paste(body, (4, 9))
+
+        if self.skin.available_second and TopLayer.TORSO in self.top_layers:
+            body_second = self.skin.body_second_front.resize((8, 7))
+            self._canvas.alpha_composite(body_second, (4, 9))
+
+    @property
+    def image(self) -> Image.Image:
+        self._add_head()
+        self._add_body()
+
+        return self._canvas
+```
+## Using Your Own Pattern
+
+Pass the pattern class to `TotemBuilder` using the `pattern` argument.
+
+```python
+from wavy_totem_lib import Skin, TotemBuilder
+
+skin = Skin("my_skin.png")
+
+builder = TotemBuilder(
+    skin=skin,
+    pattern=SimplePattern,
+)
+
+totem = builder.build()
+totem.image.save("my_totem.png")
+```
+
+<Aside>
+    You must pass the class itself, not an instance of the class.
 </Aside>
+
+## Working with Top Layers
+
+The `top_layers` argument tells the pattern which parts of the skin's top layer should be rendered.
+
+Available values:
+
+* `TopLayer.HEAD`;
+* `TopLayer.TORSO`;
+* `TopLayer.HANDS`;
+* `TopLayer.LEGS`.
+
+Before rendering a top-layer part, check whether that specific part should be rendered:
+
+```python
+if self.skin.available_second and TopLayer.HEAD in self.top_layers:
+    self._canvas.alpha_composite(self.skin.head_second_front, (4, 1))
+```
+
+Also, always check `if self.skin.available_second`, because old 64x32 skins do not have a top layer.
+
+## Supporting Slim and Wide Skins
+
+Minecraft skins can use either a wide or slim arm model. If your pattern draws arms, check `self.skin.is_slim` and adjust cropping or placement accordingly.
+
+The skin object already takes the model into account when returning arm parts through the `right_hand_front`, `left_hand_front`, `right_hand_second_front`, and `left_hand_second_front` methods. However, the pattern itself is still responsible for how these parts are resized, cropped, rotated, and placed on the canvas.
+
+## Accepting Custom Arguments
+
+Additional keyword arguments passed to `builder.build()` are passed to the pattern and stored in `self.kwargs`.
+
+For example, you can create a pattern with an optional background color:
+
+```python
+from PIL import Image
+
+from wavy_totem_lib import Skin, TopLayer
+from wavy_totem_lib.patterns import Abstract
+
+
+class BackgroundPattern(Abstract):
+def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+super().__init__(skin, top_layers, **kwargs)
+
+    @property
+    def image(self) -> Image.Image:
+        background = self.kwargs.get("background")
+
+        if background is not None:
+            self._canvas.paste(background, (0, 0, 16, 16))
+
+        self._canvas.paste(self.skin.head_front, (4, 1))
+
+        return self._canvas
+```
+
+Then pass the argument when building the totem:
+
+```python
+totem = builder.build(
+    background=(255, 255, 255, 255),
+)
+```
+
+<Aside>
+    The builder does not validate custom keyword arguments. If your pattern expects a specific argument, check for it inside the pattern.
+</Aside>
+
+## Recommended Structure
+
+For larger patterns, it is better to split the drawing logic into private helper methods:
+
+```python
+class MyPattern(Abstract):
+    def __init__(self, skin: Skin, top_layers: list[TopLayer], **kwargs):
+        super().__init__(skin, top_layers, **kwargs)
+
+    def _add_head(self):
+        ...
+
+    def _add_hands(self):
+        ...
+
+    def _add_torso(self):
+        ...
+
+    def _add_legs(self):
+        ...
+
+    @property
+    def image(self) -> Image.Image:
+        self._add_head()
+        self._add_hands()
+        self._add_torso()
+        self._add_legs()
+
+        return self._canvas
+```
+
+This keeps the `image` property easy to read and makes the pattern easier to modify.
+
+## Best Practices
+
+* Use the built-in canvas in `self._canvas` and keep the size 16x16 unless you intentionally want a non-standard result.
+* Use `alpha_composite()` to overlay transparent textures.
+* Check `self.skin.available_second` before using top-layer properties.
+* Check `self.skin.is_slim` if your pattern uses different algorithms for drawing wide and slim skin arms.
+* Make optional behavior configurable through `**kwargs`.
+* Use helper methods for separate body parts.
+* Test the pattern with both slim and wide skins.
+* Test the pattern with both new 64x64 skins and old 64x32 skins.
+
+## What's Next?
+
+After creating a pattern, you can use it anywhere the builder accepts a pattern:
+```python
+from wavy_totem_lib import Skin, TotemBuilder
+
+skin = Skin("my_skin.png")
+
+totem = TotemBuilder(
+    skin=skin,
+    pattern=SimplePattern,
+).build()
+
+totem.image.save("simple_totem.png")
+```
