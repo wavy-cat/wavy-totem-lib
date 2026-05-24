@@ -53,7 +53,7 @@ export default defineConfig({
                     },
                     items: [
                         {
-                            label: 'How to fetch a skin?',
+                            label: 'How to get a skin?',
                             translations: {
                                 ru: 'Где получить скин?',
                             },

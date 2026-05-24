@@ -1,5 +1,5 @@
 ---
-title: How to Generate a Totem?
+title: How to generate a totem?
 description: Learn how to generate totems using the builder
 ---
 
@@ -61,7 +61,7 @@ Several key components are used for totem generation:
 
 </Steps>
 
-After these steps, you will receive an instance of the [Totem](/en/concepts/totem) class, which contains a PIL.Image object in its `image` property.
+After these steps, you will receive an instance of the [Totem](/en/concepts/totem) class, which contains a `PIL.Image` object in its `image` property.
 You can work with it as with a regular Pillow image. For example, save it:
 
 ```py
@@ -80,7 +80,7 @@ n = 2  # Scaling factor. In this case, scaling up by 2 times.
 scaled_img = totem.scale(factor=n)  # factor is a keyword argument.
 ```
 
-The method returns a PIL.Image type, so you can work with it as with a regular Pillow image, just like you worked with the totem's `image` property.
+The method returns a `PIL.Image` type, so you can work with it as with a regular Pillow image, just like you worked with the totem's `image` property.
 
 ## Selecting the Top Layer
 
