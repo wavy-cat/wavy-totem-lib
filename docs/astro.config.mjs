@@ -11,7 +11,7 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'TotemLib',
-            favicon: 'favicon.ico',
+            favicon: 'favicon.png',
             defaultLocale: 'en',
             locales: {
                 en: {
