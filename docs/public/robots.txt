@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://totemlib.wavycat.me/sitemap-index.xml

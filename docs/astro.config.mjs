@@ -4,6 +4,7 @@ import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 import starlightThemeRapide from 'starlight-theme-rapide';
 import starlightPageActions from "starlight-page-actions";
+import robotsTxt from 'astro-robots-txt';
 
 // https://astro.build/config
 export default defineConfig({
@@ -124,6 +125,7 @@ export default defineConfig({
                 })
             ],
         }),
+        robotsTxt(),
     ],
     prefetch: false,
 });
