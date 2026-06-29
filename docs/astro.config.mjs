@@ -126,7 +126,6 @@ export default defineConfig({
         starlightThemeRapide(),
         starlightImageZoom(),
         starlightPageActions({
-          baseUrl: "https://totemlib.wavycat.me",
           share: true,
           actions: {
             perplexity: true,
